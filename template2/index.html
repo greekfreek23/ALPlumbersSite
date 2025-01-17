@@ -1,97 +1,55 @@
-Here's the cleaned and enhanced HTML with placeholders, comments, and the structure and layout maintained. Analytics/tracking has been removed.
-
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Language" content="en-us" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>{title}</title> <!-- Replace with the actual title -->
-  <style>
-    .style1 {
-      background-color: #000000;
-    }
-    .style2 {
-      font-family: Calibri;
-    }
-    .style3 {
-      background-color: #B9CFFF;
-    }
-    .style4 {
-      font-family: Calibri;
-      font-size: xx-large;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    .style5 {
-      font-family: Calibri;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    .style6 {
-      font-family: Calibri;
-      font-size: medium;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    .style7 {
-      font-family: Calibri;
-      margin-top: 0;
-      margin-bottom: 0;
-      font-size: 10pt;
-      text-align: center;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title> <!-- Dynamically replaced by script.js -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <table align="center" cellpadding="3" style="width: 984px">
+  <table class="main-table">
     <tr>
       <td>
-        <table cellpadding="10" cellspacing="5" style="width: 100%">
+        <table class="content-table">
           <tr>
-            <td class="style1" style="width: 104px">
-              <img alt="" class="style2" height="154" src="{logo}" width="150" /> <!-- Replace with the actual logo image -->
+            <!-- Logo Section -->
+            <td class="logo-section">
+              <img src="{logo}" alt="{company_name} Logo" class="logo">
             </td>
-            <td class="style3">
-              <p class="style4"></p>
-              <p class="style4"><strong>{company_name}</strong></p> <!-- Replace with the actual company name -->
-              <p class="style6"><em>{company_tagline}</em></p> <!-- Replace with the actual company tagline -->
-              <ul>
-                <li><p class="style5">{feature_1}</p></li> <!-- Replace with the actual feature -->
-                <li><p class="style5">{feature_2}</p></li> <!-- Replace with the actual feature -->
-                <li><p class="style5">{feature_3}</p></li> <!-- Replace with the actual feature -->
-                <li><p class="style5">{feature_4}</p></li> <!-- Replace with the actual feature -->
-                <li><p class="style5">{feature_5}</p></li> <!-- Replace with the actual feature -->
-                <li><p class="style5">{feature_6}</p></li> <!-- Replace with the actual feature -->
-                <li><p class="style5">{feature_7}</p></li> <!-- Replace with the actual feature -->
+
+            <!-- Company Info Section -->
+            <td class="info-section">
+              <h1>{company_name}</h1>
+              <p class="tagline">{company_tagline}</p>
+              <ul class="features">
+                <li>{feature_1}</li>
+                <li>{feature_2}</li>
+                <li>{feature_3}</li>
+                <li>{feature_4}</li>
+                <li>{feature_5}</li>
+                <li>{feature_6}</li>
+                <li>{feature_7}</li>
               </ul>
-              <p class="style5"><strong>{company_license}</strong></p> <!-- Replace with the actual company license information -->
+              <p class="license">{company_license}</p>
             </td>
-            <td class="style3">
-              <p class="style5"><strong>{location_1}</strong></p> <!-- Replace with the actual location -->
-              <p class="style5">{phone_1}</p> <!-- Replace with the actual phone number -->
-              <p class="style5"><strong>{location_2}</strong></p> <!-- Replace with the actual location -->
-              <p class="style5">{phone_2}</p> <!-- Replace with the actual phone number -->
-              <p class="style5"><strong>{location_3}</strong></p> <!-- Replace with the actual location -->
-              <p class="style5">{phone_3}</p> <!-- Replace with the actual phone number -->
-              <p class="style5">Fax: {fax}</p> <!-- Replace with the actual fax number -->
-              <hr />
-              <p class="style7">{address}</p> <!-- Replace with the actual address -->
+
+            <!-- Contact Section -->
+            <td class="contact-section">
+              <p><strong>{location_1}</strong>: {phone_1}</p>
+              <p><strong>{location_2}</strong>: {phone_2}</p>
+              <p><strong>{location_3}</strong>: {phone_3}</p>
+              <p>Fax: {fax}</p>
+              <hr>
+              <p class="address">{address}</p>
             </td>
           </tr>
         </table>
       </td>
     </tr>
   </table>
+
+  <!-- Load shared data and this template's script -->
+  <script src="../path/to/businessData.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-```
-
-In this enhanced HTML:
-
-- Static elements like the company name, logo, phone numbers, and addresses have been replaced with placeholders enclosed in curly braces (`{}`).
-- Comments have been added to explain the purpose of each placeholder.
-- The structure and layout of the HTML have been maintained.
-- Analytics/tracking scripts have been removed.
-
-You can replace the placeholders with the actual values for your website, and the HTML should render correctly while maintaining the desired structure and layout.
