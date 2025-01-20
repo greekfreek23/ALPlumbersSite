@@ -199,7 +199,7 @@
     }
   }
 
-function initReviews(fiveStarReviews) {
+  function initReviews(fiveStarReviews) {
   const track = document.getElementById("reviewsTrack");
   if (!track) return;
   track.innerHTML = "";
@@ -209,19 +209,17 @@ function initReviews(fiveStarReviews) {
     return;
   }
 
-  // Only duplicate reviews once instead of twice
+  // Duplicate reviews once
   const duplicatedReviews = [...fiveStarReviews, ...fiveStarReviews];
   
-  // Calculate animation duration
-  const SECONDS_PER_REVIEW = 5; // Each review visible for 5 seconds
+  // Calculate animation duration based on number of original reviews
+  const SECONDS_PER_REVIEW = 5;
   const totalDuration = fiveStarReviews.length * SECONDS_PER_REVIEW;
   
-  // Set the animation duration dynamically
-  track.style.animation = `scroll ${totalDuration}s linear infinite`;
-
   duplicatedReviews.forEach(r => {
     const card = document.createElement("div");
     card.className = "review-card";
+    card.style.flex = "0 0 300px"; // Fixed width for each card
 
     const nameEl = document.createElement("h4");
     nameEl.className = "reviewer-name";
@@ -240,6 +238,20 @@ function initReviews(fiveStarReviews) {
     card.appendChild(textEl);
     track.appendChild(card);
   });
+
+  // Set the animation AFTER all cards are added
+  track.style.animation = `slide ${totalDuration}s linear infinite`;
+
+  // Add pause on hover
+  const slider = track.parentElement;
+  if (slider) {
+    slider.addEventListener('mouseenter', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    slider.addEventListener('mouseleave', () => {
+      track.style.animationPlayState = 'running';
+    });
+  }
 }
 
   function startHeroSlider(){
