@@ -147,27 +147,81 @@ body {
   font-size: 0.9em;
 }
 
-/* HERO */
+/* Hero Section - Fixed Image Display */
 .hero {
   position: relative;
-  height: 600px;
-  overflow: hidden;
+  width: 100%;
+  background: var(--primary-dark);
+  /* Use aspect-ratio instead of fixed height */
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .slides {
   position: relative;
   width: 100%;
   height: 100%;
 }
+
 .slide {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-size: contain; /* Show the full image */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Prevent repetition */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+  transition: opacity 1.5s ease-in-out,
+              visibility 1.5s ease-in-out;
+}
+
+/* This ensures the image fills the space properly */
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* For logos or content that shouldn't be cropped */
+  /* object-fit: contain; */
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* For background images approach */
+.slide[data-type="background-image"] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* For content images approach */
+.slide[data-type="content-image"] {
+  background: var(--primary-dark);
+}
+
+.slide[data-type="content-image"] img {
+  object-fit: contain;
+  max-width: 90%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
 }
 
 .slide.active {
