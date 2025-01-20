@@ -199,7 +199,7 @@
     }
   }
 
- function initReviews(fiveStarReviews) {
+function initReviews(fiveStarReviews) {
   const track = document.getElementById("reviewsTrack");
   if (!track) return;
   track.innerHTML = "";
@@ -209,17 +209,17 @@
     return;
   }
 
-  // Create enough duplicates to ensure smooth infinite loop
-  const duplicatedReviews = [...fiveStarReviews, ...fiveStarReviews, ...fiveStarReviews];
+  // Create 20 copies of the reviews for a very long track
+  const duplicatedReviews = Array(20).fill(fiveStarReviews).flat();
   
-  // Calculate animation duration
+  // Calculate animation duration based on total duplicated length
   const SECONDS_PER_REVIEW = 5; // Each review visible for 5 seconds
   const totalDuration = fiveStarReviews.length * SECONDS_PER_REVIEW;
 
   duplicatedReviews.forEach(r => {
     const card = document.createElement("div");
     card.className = "review-card";
-    card.style.flex = "0 0 300px"; // Fixed width for each card
+    card.style.flex = "0 0 300px";
 
     const nameEl = document.createElement("h4");
     nameEl.className = "reviewer-name";
@@ -239,26 +239,16 @@
     track.appendChild(card);
   });
 
-  // Set animation with infinite loop
+  // Set the animation
   track.style.animation = `slide ${totalDuration}s linear infinite`;
 
-  // Add event listener to pause on hover
+  // Hover handlers
   track.addEventListener('mouseenter', () => {
     track.style.animationPlayState = 'paused';
   });
   
   track.addEventListener('mouseleave', () => {
     track.style.animationPlayState = 'running';
-  });
-
-  // Add animation reset to create seamless loop
-  track.addEventListener('animationend', () => {
-    // Reset the transform immediately when animation ends
-    track.style.transform = 'translateX(0)';
-    // Trigger reflow
-    void track.offsetWidth;
-    // Restart the animation
-    track.style.animation = `slide ${totalDuration}s linear infinite`;
   });
 }
 
