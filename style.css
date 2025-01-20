@@ -118,12 +118,14 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
+  background-size: contain; /* Show the full image */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent repetition */
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
 }
+
 .slide.active {
   opacity: 1;
   visibility: visible;
