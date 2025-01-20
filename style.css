@@ -378,6 +378,7 @@ body {
   color: var(--text-dark);
 }
 
+/* Updated Reviews Animation */
 .reviews-slider {
   position: relative;
   width: 100%;
@@ -391,8 +392,19 @@ body {
   width: max-content;
   gap: 20px;
   padding: 0 20px;
-  /* Animation duration set by JavaScript */
+  will-change: transform;
 }
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Rest of the reviews styling stays the same */
 
 .review-card {
   flex: 0 0 300px;
