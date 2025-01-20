@@ -42,10 +42,10 @@ body {
   height: auto;
   display: block;
   margin: 0 auto;
-  -webkit-backface-visibility: hidden; /* Helps with image rendering */
-  -ms-interpolation-mode: nearest-neighbor; /* Better scaling in IE */
-  image-rendering: -webkit-optimize-contrast; /* Better rendering in Chrome/Safari */
-  image-rendering: crisp-edges; /* General improvement for modern browsers */
+  -webkit-backface-visibility: hidden;
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .contact-bar {
@@ -342,24 +342,14 @@ body {
   align-items: center;
   gap: 5px;
   justify-content: center;
+  text-decoration: none;
 }
 .call-btn:hover {
   background: rgba(255,255,255,0.9);
   transform: translateY(-2px);
 }
 
-@media (max-width: 992px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 768px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* REVIEWS */
+/* REVIEWS - Updated Section */
 .reviews-section {
   padding: 60px 20px;
   background: #f9f9f9;
@@ -399,9 +389,9 @@ body {
 .reviews-track {
   display: flex;
   width: max-content;
-  animation: slideReviews 120s linear infinite; /* Slowed down from 60s to 120s */
   gap: 20px;
   padding: 0 20px;
+  /* Animation duration set by JavaScript */
 }
 
 .review-card {
@@ -446,12 +436,12 @@ body {
   -webkit-box-orient: vertical;
 }
 
-@keyframes slideReviews {
+@keyframes slide {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-50%)); /* Simplified from calc(-50% - 10px) for smoother loop */
+    transform: translateX(-50%);
   }
 }
 
@@ -498,33 +488,6 @@ body {
 .review-button:hover {
   background: var(--primary-color);
   transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-  .reviews-section {
-    padding: 40px 15px;
-  }
-  .review-card {
-    flex: 0 0 280px;
-    padding: 15px;
-    min-height: 180px;
-  }
-  .reviews-slider::before,
-  .reviews-slider::after {
-    width: 50px;
-  }
-}
-
-@media (max-width: 480px) {
-  .review-card {
-    flex: 0 0 260px;
-  }
-  .review-text {
-    -webkit-line-clamp: 4;
-  }
-  .reviews-header {
-    font-size: 1.6em;
-  }
 }
 
 /* CONTACT */
