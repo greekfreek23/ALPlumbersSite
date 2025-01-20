@@ -38,7 +38,7 @@ body {
   background: var(--secondary-color);
 }
 .logo {
-  width: 1500px;      /* 10x larger than before */
+  width: 200px;      /* 10x larger than before */
   height: auto;       /* Maintain aspect ratio */
   display: block;
   margin: 0 auto;
