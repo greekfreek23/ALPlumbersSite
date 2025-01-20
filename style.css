@@ -42,10 +42,10 @@ body {
   height: auto;
   display: block;
   margin: 0 auto;
-  -webkit-backface-visibility: hidden;
-  -ms-interpolation-mode: nearest-neighbor;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  -webkit-backface-visibility: hidden; /* Helps with image rendering */
+  -ms-interpolation-mode: nearest-neighbor; /* Better scaling in IE */
+  image-rendering: -webkit-optimize-contrast; /* Better rendering in Chrome/Safari */
+  image-rendering: crisp-edges; /* General improvement for modern browsers */
 }
 
 .contact-bar {
@@ -342,14 +342,27 @@ body {
   align-items: center;
   gap: 5px;
   justify-content: center;
-  text-decoration: none;
 }
 .call-btn:hover {
   background: rgba(255,255,255,0.9);
   transform: translateY(-2px);
 }
 
-/* REVIEWS - Updated Section */
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* style.css */
+[Your entire original CSS file content, with ONLY this part updated in the reviews section:]
+
+/* REVIEWS */
 .reviews-section {
   padding: 60px 20px;
   background: #f9f9f9;
@@ -378,7 +391,6 @@ body {
   color: var(--text-dark);
 }
 
-/* Updated Reviews Animation */
 .reviews-slider {
   position: relative;
   width: 100%;
@@ -394,17 +406,6 @@ body {
   padding: 0 20px;
   will-change: transform;
 }
-
-@keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Rest of the reviews styling stays the same */
 
 .review-card {
   flex: 0 0 300px;
@@ -500,6 +501,30 @@ body {
 .review-button:hover {
   background: var(--primary-color);
   transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .review-card {
+    flex: 0 0 280px;
+    padding: 15px;
+    min-height: 180px;
+  }
+  .reviews-slider::before,
+  .reviews-slider::after {
+    width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-card {
+    flex: 0 0 260px;
+  }
+  .review-text {
+    -webkit-line-clamp: 4;
+  }
+  .reviews-header {
+    font-size: 1.6em;
+  }
 }
 
 /* CONTACT */
