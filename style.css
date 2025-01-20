@@ -42,15 +42,16 @@ body {
   background: var(--secondary-color);
 }
 
+```css
 .logo {
-  width: 300px;
-  height: auto;
   display: block;
   margin: 0 auto;
   max-width: 100%;
+  height: auto;
+  /* Adjust max-height if necessary */
+  max-height: 150px;
+  /* Use object-fit as appropriate */
   object-fit: contain;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
 }
 
 .contact-bar {
