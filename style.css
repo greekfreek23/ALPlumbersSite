@@ -452,20 +452,17 @@ body {
   padding: 60px 20px;
   background: #f9f9f9;
   text-align: center;
-  overflow: hidden;
 }
 
 .reviews-header {
   font-size: 2em;
   margin-bottom: 30px;
   color: var(--primary-color);
-  text-align: center;
   font-weight: 700;
 }
 
 .rating-info {
   margin-bottom: 30px;
-  text-align: center;
 }
 
 .rating-stars {
@@ -481,34 +478,28 @@ body {
 
 .reviews-slider {
   position: relative;
-  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
   overflow: hidden;
-  padding: 20px 0;
 }
 
 .reviews-track {
   display: flex;
-  gap: 20px;
-  padding: 0 20px;
-  transition: var(--transition);
+  transition: transform 0.5s ease-in-out;
 }
 
 .review-card {
-  flex: 0 0 300px;
+  flex: 0 0 100%;
+  max-width: 100%;
   background: #fff;
   padding: 20px;
+  margin: 0 10px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
-  transition: all 0.3s ease;
   min-height: 200px;
   display: flex;
   flex-direction: column;
-}
-
-.review-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .reviewer-name {
@@ -529,41 +520,40 @@ body {
   line-height: 1.6;
   color: #555;
   flex-grow: 1;
-  overflow: hidden;
-}
-.leave-review-container {
-  margin-top: 40px;
-  text-align: center;
-  width: 100%;
 }
 
-.review-button {
-  display: inline-block;
-  padding: 12px 30px;
+.slider-nav {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.slider-nav button {
   background: var(--accent-color);
   color: #fff;
-  text-decoration: none;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1em;
 }
 
-.review-button:hover {
+.slider-nav button:hover {
   background: var(--primary-color);
-  transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-  .reviews-track {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-
+@media (min-width: 768px) {
   .review-card {
-    flex: 0 0 80%;
-    scroll-snap-align: center;
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
+  .reviews-track {
+    flex-wrap: nowrap;
   }
 }
+
 
 /* CONTACT */
 .contact-section {
