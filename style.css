@@ -147,16 +147,13 @@ body {
   font-size: 0.9em;
 }
 
-/* Hero Section - Fixed Image Display */
+/* Hero Section - Fixed for background scaling */
 .hero {
   position: relative;
   width: 100%;
-  background: var(--primary-dark);
-  /* Use aspect-ratio instead of fixed height */
-  aspect-ratio: 16/9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 600px; /* Fixed height instead of aspect-ratio */
+  overflow: hidden; /* Prevent image spillover */
+  background-color: #000; /* Dark background for any gaps */
 }
 
 .slides {
@@ -167,15 +164,31 @@ body {
 
 .slide {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+}
+
+/* For background-image type slides */
+.slide[data-type="background-image"] {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 1.5s ease-in-out,
-              visibility 1.5s ease-in-out;
+}
+
+/* For content-image type slides */
+.slide[data-type="content-image"] img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 /* This ensures the image fills the space properly */
