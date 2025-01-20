@@ -199,40 +199,48 @@
     }
   }
 
-  function initReviews(fiveStarReviews){
-    const track = document.getElementById("reviewsTrack");
-    if(!track) return;
-    track.innerHTML = "";
+function initReviews(fiveStarReviews) {
+  const track = document.getElementById("reviewsTrack");
+  if (!track) return;
+  track.innerHTML = "";
 
-    if(!fiveStarReviews.length) {
-      console.warn("No 5-star reviews found for this business.");
-      return;
-    }
-
-    // Duplicate them for a continuous slider effect
-    const duplicatedReviews = [...fiveStarReviews, ...fiveStarReviews, ...fiveStarReviews];
-    duplicatedReviews.forEach(r => {
-      const card = document.createElement("div");
-      card.className = "review-card";
-
-      const nameEl = document.createElement("h4");
-      nameEl.className = "reviewer-name";
-      nameEl.textContent = r.reviewerName || "Anonymous";
-
-      const starEl = document.createElement("div");
-      starEl.className = "review-stars";
-      starEl.textContent = "★★★★★";
-
-      const textEl = document.createElement("p");
-      textEl.className = "review-text";
-      textEl.textContent = r.reviewText || "Excellent service!";
-
-      card.appendChild(nameEl);
-      card.appendChild(starEl);
-      card.appendChild(textEl);
-      track.appendChild(card);
-    });
+  if (!fiveStarReviews.length) {
+    console.warn("No 5-star reviews found for this business.");
+    return;
   }
+
+  // Only duplicate reviews once instead of twice
+  const duplicatedReviews = [...fiveStarReviews, ...fiveStarReviews];
+  
+  // Calculate animation duration
+  const SECONDS_PER_REVIEW = 5; // Each review visible for 5 seconds
+  const totalDuration = fiveStarReviews.length * SECONDS_PER_REVIEW;
+  
+  // Set the animation duration dynamically
+  track.style.animation = `scroll ${totalDuration}s linear infinite`;
+
+  duplicatedReviews.forEach(r => {
+    const card = document.createElement("div");
+    card.className = "review-card";
+
+    const nameEl = document.createElement("h4");
+    nameEl.className = "reviewer-name";
+    nameEl.textContent = r.reviewerName || "Anonymous";
+
+    const starEl = document.createElement("div");
+    starEl.className = "review-stars";
+    starEl.textContent = "★★★★★";
+
+    const textEl = document.createElement("p");
+    textEl.className = "review-text";
+    textEl.textContent = r.reviewText || "Excellent service!";
+
+    card.appendChild(nameEl);
+    card.appendChild(starEl);
+    card.appendChild(textEl);
+    track.appendChild(card);
+  });
+}
 
   function startHeroSlider(){
     const slides = document.querySelectorAll('.slides .slide');
