@@ -212,9 +212,9 @@ function initReviews(fiveStarReviews) {
   // Create 20 copies of the reviews for a very long track
   const duplicatedReviews = Array(20).fill(fiveStarReviews).flat();
   
-  // Calculate animation duration based on total duplicated length
-  const SECONDS_PER_REVIEW = 5; // Each review visible for 5 seconds
-  const totalDuration = fiveStarReviews.length * SECONDS_PER_REVIEW;
+  // Calculate animation duration based on TOTAL number of reviews
+  const SECONDS_PER_REVIEW = 5;
+  const totalDuration = duplicatedReviews.length * SECONDS_PER_REVIEW; // Using full length now
 
   duplicatedReviews.forEach(r => {
     const card = document.createElement("div");
@@ -239,7 +239,7 @@ function initReviews(fiveStarReviews) {
     track.appendChild(card);
   });
 
-  // Set the animation
+  // Set the animation with the much longer duration
   track.style.animation = `slide ${totalDuration}s linear infinite`;
 
   // Hover handlers
