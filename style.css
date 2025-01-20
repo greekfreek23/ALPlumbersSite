@@ -38,12 +38,12 @@ body {
   background: var(--secondary-color);
 }
 .logo {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
+  max-width: 150px;    /* Limit width but allow scaling down from a higher resolution */
+  height: auto;        /* Maintain aspect ratio */
   display: block;
   margin: 0 auto;
 }
+
 .contact-bar {
   background: var(--primary-color);
   padding: 8px;
