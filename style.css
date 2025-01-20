@@ -118,11 +118,9 @@ body {
 /* HERO SECTION */
 .hero {
   position: relative;
-  height: 80vh;
-  min-height: 600px;
-  max-height: 800px;
-  overflow: hidden;
-  background: #000;
+  height: 600px; /* Fixed height instead of vh */
+  width: 100%;
+  background: #000; /* Dark background for image contrast */
 }
 
 .slides {
@@ -135,11 +133,15 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-size: cover;
+  background-size: contain; /* Changed from cover to contain */
   background-position: center;
+  background-repeat: no-repeat; /* Added to prevent tiling */
   opacity: 0;
   visibility: hidden;
   transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+  display: flex; /* Added for better centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 .slide.active {
@@ -149,7 +151,8 @@ body {
 
 .hero-overlay {
   position: absolute;
-  inset: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
@@ -167,6 +170,23 @@ body {
   line-height: 1.4;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
   font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    height: 400px; /* Shorter on mobile */
+  }
+  
+  .hero-desc {
+    font-size: 1.8em;
+  }
+}
+
+@media (min-width: 1400px) {
+  .hero {
+    height: 700px; /* Taller on large screens */
+  }
 }
 
 .hero-cta {
