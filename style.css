@@ -366,23 +366,28 @@ body {
   text-align: center;
   overflow: hidden;
 }
+
 .reviews-header {
   font-size: 2em;
   margin-bottom: 30px;
   color: var(--primary-color);
 }
+
 .rating-info {
   margin-bottom: 30px;
 }
+
 .rating-stars {
   font-size: 2em;
   color: #FFD700;
   margin-bottom: 10px;
 }
+
 .rating-text {
   font-size: 1.1em;
   color: var(--text-dark);
 }
+
 .reviews-slider {
   position: relative;
   width: 100%;
@@ -390,13 +395,15 @@ body {
   padding: 20px 0;
   margin: 0 -20px;
 }
+
 .reviews-track {
   display: flex;
   width: max-content;
-  animation: slideReviews 60s linear infinite;
+  animation: slideReviews 120s linear infinite; /* Slowed down from 60s to 120s */
   gap: 20px;
   padding: 0 20px;
 }
+
 .review-card {
   flex: 0 0 300px;
   background: #fff;
@@ -409,21 +416,25 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .review-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
+
 .reviewer-name {
   font-size: 1.1em;
   font-weight: 600;
   color: var(--primary-color);
   margin-bottom: 8px;
 }
+
 .review-stars {
   color: #FFD700;
   font-size: 1.1em;
   margin-bottom: 12px;
 }
+
 .review-text {
   font-size: 0.95em;
   line-height: 1.6;
@@ -440,12 +451,14 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-50% - 10px));
+    transform: translateX(calc(-50%)); /* Simplified from calc(-50% - 10px) for smoother loop */
   }
 }
+
 .reviews-track:hover {
   animation-play-state: paused;
 }
+
 .reviews-slider::before,
 .reviews-slider::after {
   content: '';
@@ -456,17 +469,21 @@ body {
   z-index: 2;
   pointer-events: none;
 }
+
 .reviews-slider::before {
   left: 0;
   background: linear-gradient(to right, #f9f9f9, transparent);
 }
+
 .reviews-slider::after {
   right: 0;
   background: linear-gradient(to left, #f9f9f9, transparent);
 }
+
 .leave-review-container {
   margin-top: 40px;
 }
+
 .review-button {
   display: inline-block;
   padding: 12px 30px;
@@ -477,6 +494,7 @@ body {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+
 .review-button:hover {
   background: var(--primary-color);
   transform: translateY(-2px);
@@ -496,6 +514,7 @@ body {
     width: 50px;
   }
 }
+
 @media (max-width: 480px) {
   .review-card {
     flex: 0 0 260px;
