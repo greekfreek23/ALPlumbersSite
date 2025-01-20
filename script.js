@@ -199,7 +199,7 @@
     }
   }
 
-  function initReviews(fiveStarReviews) {
+ function initReviews(fiveStarReviews) {
   const track = document.getElementById("reviewsTrack");
   if (!track) return;
   track.innerHTML = "";
@@ -209,13 +209,13 @@
     return;
   }
 
-  // Duplicate reviews once
-  const duplicatedReviews = [...fiveStarReviews, ...fiveStarReviews];
+  // Create enough duplicates to ensure smooth infinite loop
+  const duplicatedReviews = [...fiveStarReviews, ...fiveStarReviews, ...fiveStarReviews];
   
-  // Calculate animation duration based on number of original reviews
-  const SECONDS_PER_REVIEW = 5;
+  // Calculate animation duration
+  const SECONDS_PER_REVIEW = 5; // Each review visible for 5 seconds
   const totalDuration = fiveStarReviews.length * SECONDS_PER_REVIEW;
-  
+
   duplicatedReviews.forEach(r => {
     const card = document.createElement("div");
     card.className = "review-card";
@@ -239,19 +239,27 @@
     track.appendChild(card);
   });
 
-  // Set the animation AFTER all cards are added
+  // Set animation with infinite loop
   track.style.animation = `slide ${totalDuration}s linear infinite`;
 
-  // Add pause on hover
-  const slider = track.parentElement;
-  if (slider) {
-    slider.addEventListener('mouseenter', () => {
-      track.style.animationPlayState = 'paused';
-    });
-    slider.addEventListener('mouseleave', () => {
-      track.style.animationPlayState = 'running';
-    });
-  }
+  // Add event listener to pause on hover
+  track.addEventListener('mouseenter', () => {
+    track.style.animationPlayState = 'paused';
+  });
+  
+  track.addEventListener('mouseleave', () => {
+    track.style.animationPlayState = 'running';
+  });
+
+  // Add animation reset to create seamless loop
+  track.addEventListener('animationend', () => {
+    // Reset the transform immediately when animation ends
+    track.style.transform = 'translateX(0)';
+    // Trigger reflow
+    void track.offsetWidth;
+    // Restart the animation
+    track.style.animation = `slide ${totalDuration}s linear infinite`;
+  });
 }
 
   function startHeroSlider(){
