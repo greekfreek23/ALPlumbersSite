@@ -103,30 +103,29 @@ body {
   font-size: 0.9em;
 }
 
-/* HERO */
 .hero {
-  position: relative;
-  height: 600px;
-  overflow: hidden;
+    position: relative;
+    height: 600px;
+    /* Remove overflow: hidden temporarily to debug */
 }
-.slides {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+
 .slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: contain; /* Change from cover to contain if needed */
+    background-position: center center;
+    background-repeat: no-repeat; /* Add this */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
 }
+
+/* Add debugging outline to see boundaries */
 .slide.active {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
+    border: 1px solid red; /* Temporary, for debugging */
 }
 .hero-overlay {
   position: absolute;
