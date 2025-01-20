@@ -447,11 +447,13 @@ body {
   }
 }
 
+```css
 /* REVIEWS */
 .reviews-section {
   padding: 60px 20px;
   background: #f9f9f9;
   text-align: center;
+  overflow: hidden;
 }
 
 .reviews-header {
@@ -478,28 +480,32 @@ body {
 
 .reviews-slider {
   position: relative;
-  max-width: var(--container-width);
-  margin: 0 auto;
+  width: 100%;
   overflow: hidden;
 }
 
 .reviews-track {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  animation: scroll 60s linear infinite;
 }
 
 .review-card {
-  flex: 0 0 100%;
-  max-width: 100%;
+  flex: 0 0 300px;
+  margin: 0 10px;
   background: #fff;
   padding: 20px;
-  margin: 0 10px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   text-align: left;
   min-height: 200px;
   display: flex;
   flex-direction: column;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
 }
 
 .reviewer-name {
@@ -522,35 +528,54 @@ body {
   flex-grow: 1;
 }
 
-.slider-nav {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+/* Keyframes for scrolling animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-310px * var(--total-reviews)));
+  }
 }
 
-.slider-nav button {
+.reviews-track:hover {
+  animation-play-state: paused;
+}
+
+.leave-review-container {
+  margin-top: 40px;
+}
+
+.review-button {
+  display: inline-block;
+  padding: 12px 30px;
   background: var(--accent-color);
   color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-size: 1em;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.slider-nav button:hover {
+.review-button:hover {
   background: var(--primary-color);
+  transform: translateY(-2px);
 }
 
-@media (min-width: 768px) {
-  .review-card {
-    flex: 0 0 33.333%;
-    max-width: 33.333%;
+@media (max-width: 768px) {
+  .reviews-section {
+    padding: 40px 10px;
   }
+
   .reviews-track {
-    flex-wrap: nowrap;
+    animation: none;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+
+  .review-card {
+    flex: 0 0 80%;
+    scroll-snap-align: center;
   }
 }
 
