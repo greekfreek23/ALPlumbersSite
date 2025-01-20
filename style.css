@@ -364,7 +364,7 @@ body {
 
 /* REVIEWS */
 .reviews-section {
-  padding: 60px 20px;
+  padding: 60px 0; /* Removed horizontal padding */
   background: #f9f9f9;
   text-align: center;
   overflow: hidden;
@@ -374,10 +374,12 @@ body {
   font-size: 2em;
   margin-bottom: 30px;
   color: var(--primary-color);
+  padding: 0 20px;
 }
 
 .rating-info {
   margin-bottom: 30px;
+  padding: 0 20px;
 }
 
 .rating-stars {
@@ -395,17 +397,15 @@ body {
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: 20px 0;
-  margin: 0 auto;
 }
 
 .reviews-track {
   display: flex;
-  width: max-content;
   gap: 20px;
-  padding: 0 20px;
-  will-change: transform;
-  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .review-card {
@@ -452,10 +452,10 @@ body {
 
 @keyframes slide {
   0% {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-50% - 50%));
   }
 }
 
@@ -486,6 +486,7 @@ body {
 
 .leave-review-container {
   margin-top: 40px;
+  padding: 0 20px;
 }
 
 .review-button {
@@ -505,17 +506,6 @@ body {
 }
 
 @media (max-width: 768px) {
-  .reviews-section {
-    padding: 40px 0;
-  }
-  .reviews-slider {
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    position: relative;
-  }
   .review-card {
     flex: 0 0 280px;
     padding: 15px;
@@ -524,9 +514,6 @@ body {
   .reviews-slider::before,
   .reviews-slider::after {
     width: 50px;
-  }
-  .reviews-track {
-    padding: 0 10px;
   }
 }
 
