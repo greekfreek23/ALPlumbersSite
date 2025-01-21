@@ -278,70 +278,54 @@ body {
 }
 
 .about-container {
-  max-width: var(--container-width);
-  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
+  /* For desktop: place them side by side */
+  flex-direction: row; 
   align-items: center;
   justify-content: center;
+  gap: 30px;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  /* If you want a background or something, add it here */
 }
 
-.about-image {
-  width: 100%;
-  max-width: 600px;
-  height: 300px;       /* Fixed height */
-  background: #fff;    /* or transparent */
-  display: flex;
-  align-items: center; /* center vertically */
-  justify-content: center; /* center horizontally */
+/* Let each side take up some space */
+.about-image, .about-text {
+  flex: 1 1 45%;
+  min-width: 280px;   /* Ensures it doesn’t shrink too small */
+  margin: 0 auto;
 }
 
+/* Image styling */
 .about-image img {
-  max-height: 100%;
-  max-width: 100%;
-  /* We do NOT use object-fit: cover because that would crop. 
-     object-fit: contain would keep the entire image, but 
-     there may be white space if aspect ratios don’t match. */
-  object-fit: contain;
+  display: block;
+  width: 100%;
+  height: auto;        /* Keep aspect ratio */
+  max-width: 100%;     /* Don’t exceed container width */
+  border-radius: 8px;
+  object-fit: contain; /* Show entire image */
+  box-shadow: var(--shadow);
 }
 
-
-
+/* Text styling */
 .about-text {
-  flex: 1 1 400px;
-  min-width: 280px;
+  /* typical text styles here */
 }
 
-.about-heading {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-.about-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: var(--text-dark);
-  margin-bottom: 20px;
-}
-
+/* ----- MEDIA QUERY for smaller screens ----- */
 @media (max-width: 768px) {
   .about-container {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: column; 
+    /* Stacks image and text vertically */
+    text-align: center; /* optional; center text on mobile */
   }
-
-  .about-text {
-    order: 2;
-  }
-
-  .about-image {
-    order: 1;
-    height: 300px;
+  /* You can also adjust any widths or spacing if needed */
+  .about-image, .about-text {
+    flex: none;   /* so they don’t try to share space side-by-side */
+    width: 100%;  /* full width on mobile */
   }
 }
+
 
 /* SERVICES */
 .services-section {
