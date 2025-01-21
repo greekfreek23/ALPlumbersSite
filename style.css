@@ -159,9 +159,7 @@ a {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.8s ease;
-  
-  /* Full image display without letterboxing */
-  background-size: 100% 100%;  /* Stretch to fill exactly */
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -193,6 +191,7 @@ a {
   font-size: 2.5rem;
   max-width: 800px;
   margin-bottom: 2rem;
+  line-height: 1.2;
 }
 
 .hero-cta {
@@ -204,34 +203,30 @@ a {
   transition: background 0.3s ease;
 }
 
+/* Mobile Adjustments */
 @media (max-width: 768px) {
   .hero {
     height: 60vh;
     min-height: 400px;
   }
 
-  .hero-desc {
-    font-size: 1.8rem;
+  .hero-overlay {
+    padding: 1rem;  /* Reduced padding */
+    justify-content: flex-start;  /* Align to top instead of center */
+    padding-top: 3rem;  /* Add some space from top */
   }
-}
 
-.hero-cta {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: var(--light-text-color);
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background-color var(--transition-speed);
-}
+  .hero-desc {
+    font-size: 1.4rem;  /* Smaller font */
+    margin-bottom: 1rem;  /* Reduced margin */
+    line-height: 1.1;  /* Tighter line height */
+    max-width: 90%;  /* Slightly narrower on mobile */
+  }
 
-.hero-cta i {
-  margin-right: 0.5rem;
-}
-
-.hero-cta:hover {
-  background-color: #ff7f32; /* Slight hover change, or use lighten/darken logic */
+  .hero-cta {
+    padding: 0.75rem 1.5rem;  /* Smaller padding */
+    font-size: 1rem;  /* Smaller font */
+  }
 }
 
 /* =======================
