@@ -288,21 +288,22 @@ body {
 }
 
 .about-image {
-  width: 100%; /* Responsive width */
-  max-width: 600px; /* Limit the max width */
-  height: 300px; /* Or the height you want */
-  overflow: hidden; /* Prevent anything extra from showing */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent; /* Ensure no background adds to the border */
+  /* Just let this wrap around the image. */
+  /* You can limit its overall width if desired. */
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  /* No fixed height – the container adapts to the image’s aspect ratio */
 }
 
 .about-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Show the full image */
-  object-position: center; /* Center the image */
+  /* Make sure it shrinks if the screen is small, 
+     but never grows beyond its natural size */
+  display: block;
+  max-width: 100%;  /* Limits width on small screens */
+  height: auto;     /* Keeps the natural aspect ratio */
+  max-height: 400px; /* Prevents it from becoming super tall */
+  margin: 0 auto;   /* Centers the image inside the container */
 }
 
 
