@@ -58,7 +58,7 @@ a {
 
 /* Logo Section */
 .logo-section {
-  padding: 1rem;
+  padding: 0.75rem;  /* Slightly reduced padding */
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -72,7 +72,7 @@ a {
 
 /* Navigation */
 .navbar {
-  padding: 1rem;
+  padding: 0.75rem;  /* Slightly reduced padding */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -209,11 +209,20 @@ a {
     top: 0;
   }
 
+  .logo-section {
+    padding: 1rem;
+  }
+
+  .logo {
+    height: 120px;  /* Much larger logo on mobile */
+  }
+
   .hamburger {
     display: block;
     position: absolute;
     right: 1rem;
-    top: 1.5rem;
+    top: 50%;     /* Adjusted to center vertically */
+    transform: translateY(-50%);
     font-size: 1.5rem;
     color: var(--light-text-color);
     cursor: pointer;
