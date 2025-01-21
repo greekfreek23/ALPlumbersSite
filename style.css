@@ -211,21 +211,21 @@ a {
   }
 
   .hero-overlay {
-    padding: 1rem;  /* Reduced padding */
-    justify-content: flex-start;  /* Align to top instead of center */
-    padding-top: 3rem;  /* Add some space from top */
+    padding: 1rem;
+    justify-content: center; /* Keep centered on mobile */
   }
 
   .hero-desc {
-    font-size: 1.4rem;  /* Smaller font */
-    margin-bottom: 1rem;  /* Reduced margin */
-    line-height: 1.1;  /* Tighter line height */
-    max-width: 90%;  /* Slightly narrower on mobile */
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    max-width: 90%;
+    padding: 0.5rem; /* Tighter padding */
   }
 
   .hero-cta {
-    padding: 0.75rem 1.5rem;  /* Smaller padding */
-    font-size: 1rem;  /* Smaller font */
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
   }
 }
 
