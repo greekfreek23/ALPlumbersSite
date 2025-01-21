@@ -275,103 +275,96 @@ a {
     font-size: 1rem;
   }
 }
-/* ===============
-   ABOUT US (SPLIT)
-   =============== */
+/* ====================================== */
+/* ABOUT US (FULL-WIDTH SLIDER + OVERLAY) */
+/* ====================================== */
 
 .about-us-section {
-  padding: 5rem 2rem;
-  background-color: #fdfdfd; /* Light background */
-}
-
-.about-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 2rem;
-  flex-wrap: wrap; /* Stacks on mobile */
-}
-
-/* The container that holds the image slides */
-.about-image {
   position: relative;
-  flex: 1 1 500px;
-  min-width: 300px;
-  max-height: 400px; /* Prevents overly tall images on desktop */
+  min-height: 500px;
   overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background: #000; /* fallback color */
 }
 
-/* Each slide (populated by JS) */
-.about-image .slide {
+/* The slider container takes full section space */
+.about-image[data-about-slider] {
   position: absolute;
   top: 0; 
   left: 0; 
   right: 0; 
   bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Each slide is layered. Only .active is visible. */
+.about-image .slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease;
-  /* If your JS sets background-image via .slide, use contain to avoid cropping: */
-  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
-  background-size: contain;
 }
 
-/* The active slide fades in */
 .about-image .slide.active {
   opacity: 1;
   visibility: visible;
 }
 
-/* Text portion on the right */
-.about-text {
-  flex: 1 1 400px;
-  min-width: 300px;
-  padding: 1rem;
+/* If using <img> tags inside .slide: */
+.about-image .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The overlay container with text */
+.about-container {
+  position: relative;
+  z-index: 1; /* above the background slides */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .about-heading {
   font-size: 2rem;
-  color: var(--primary-color);
-  font-weight: 600;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.about-heading::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: var(--accent-color);
-  margin-top: 0.5rem;
-  border-radius: 2px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
 .about-description {
-  color: #555;
+  color: #f0f0f0;
+  font-size: 1.1rem;
   line-height: 1.6;
-  margin-top: 1rem;
 }
 
-/* Mobile: stack image above text & reduce image height further */
+/* Responsive */
 @media (max-width: 768px) {
+  .about-us-section {
+    min-height: 300px;
+  }
   .about-container {
-    flex-direction: column;
+    padding: 3rem 1.5rem;
   }
-
-  .about-image {
-    max-height: 250px; /* Prevents a tall image on mobile */
-  }
-
   .about-heading {
     font-size: 1.6rem;
   }
+  .about-description {
+    font-size: 1rem;
+  }
 }
+
 
 
 
