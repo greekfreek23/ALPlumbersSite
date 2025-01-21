@@ -178,38 +178,26 @@ body {
     padding: 0.75rem;
   }
 }
-
-/* Hero section with improved image handling */
 .hero {
   position: relative;
-  height: 80vh; /* Use viewport height instead of fixed pixels */
-  min-height: 600px; /* Minimum height to ensure good appearance on tall screens */
-  max-height: 900px; /* Maximum height to prevent excessive stretching on very tall screens */
+  height: 80vh;
+  min-height: 600px;
+  max-height: 900px;
   width: 100%;
   overflow: hidden;
 }
 
-.slides {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 .slide {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-}
-
-/* Improve image handling within slides */
-.slide img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; /* Prevent tiling */
   width: 100%;
   height: 100%;
-  object-fit: cover; /* This maintains aspect ratio while filling container */
-  object-position: center center; /* Center the image by default */
 }
 
 .slide.active {
@@ -217,11 +205,10 @@ body {
   visibility: visible;
 }
 
-/* Enhanced hero overlay */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5); /* Slightly darker overlay for better text contrast */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -232,72 +219,31 @@ body {
 
 .hero-desc {
   color: #fff;
-  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsive font size */
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   margin-bottom: 2rem;
-  max-width: 800px;
+  max-width: 900px; /* Increased for better text layout */
   line-height: 1.4;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   font-weight: 600;
+  padding: 0 1rem;
 }
 
-.hero-cta {
-  background: var(--accent-color);
-  color: #fff;
-  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .hero {
-    height: 70vh;
-    min-height: 500px;
-  }
+/* Remove any background styles from slides container */
+.slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: none;
 }
 
 @media (max-width: 768px) {
   .hero {
-    height: 60vh;
-    min-height: 400px;
+    height: 70vh;
+    min-height: 500px;
   }
   
-  .hero-overlay {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    height: 50vh;
-    min-height: 350px;
-  }
-  
-  .hero-overlay {
-    padding: 1rem;
-  }
-}
-
-/* Optional: Add these classes to fine-tune specific image positions if needed */
-.slide.position-top img {
-  object-position: center top;
-}
-
-.slide.position-bottom img {
-  object-position: center bottom;
-}
-
-/* Optional: Add custom heights for ultrawide screens */
-@media (min-aspect-ratio: 16/9) {
-  .hero {
-    height: 90vh;
+  .hero-desc {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
   }
 }
 
