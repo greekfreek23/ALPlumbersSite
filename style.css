@@ -288,22 +288,22 @@ body {
 }
 
 .about-image {
-  /* Just let this wrap around the image. */
-  /* You can limit its overall width if desired. */
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
-  /* No fixed height – the container adapts to the image’s aspect ratio */
+  height: 300px;       /* Fixed height */
+  background: #fff;    /* or transparent */
+  display: flex;
+  align-items: center; /* center vertically */
+  justify-content: center; /* center horizontally */
 }
 
 .about-image img {
-  /* Make sure it shrinks if the screen is small, 
-     but never grows beyond its natural size */
-  display: block;
-  max-width: 100%;  /* Limits width on small screens */
-  height: auto;     /* Keeps the natural aspect ratio */
-  max-height: 400px; /* Prevents it from becoming super tall */
-  margin: 0 auto;   /* Centers the image inside the container */
+  max-height: 100%;
+  max-width: 100%;
+  /* We do NOT use object-fit: cover because that would crop. 
+     object-fit: contain would keep the entire image, but 
+     there may be white space if aspect ratios don’t match. */
+  object-fit: contain;
 }
 
 
