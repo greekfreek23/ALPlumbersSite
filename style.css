@@ -181,7 +181,7 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem;
   background: var(--primary-color);
   overflow: hidden;
 }
@@ -189,14 +189,17 @@ body {
 .hero-content {
   max-width: var(--container-width);
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-image-container {
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto 2rem;
+  margin: 0 auto;
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -206,6 +209,54 @@ body {
   height: auto;
   object-fit: contain;
   display: block;
+}
+
+.hero-text {
+  text-align: center;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+.hero-desc {
+  color: #fff;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  margin-bottom: 1.5rem;
+  max-width: 800px;
+  line-height: 1.4;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: var(--accent-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: var(--transition);
+  font-size: 1.1rem;
+}
+
+.hero-cta:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-desc {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+  
+  .hero-image-container {
+    padding: 1rem;
+  }
 }
 
 /* WHY CHOOSE US */
