@@ -8,12 +8,10 @@
 }
 
 :root {
-  /* You can overwrite these via JS dynamic properties */
   --primary-color: #0099cc;     /* Header background or accent color */
   --accent-color: #ff6600;      /* Buttons or highlight color */
   --text-color: #333;           /* Primary text color */
   --light-text-color: #fff;     /* Light text on dark backgrounds */
-  --header-height: 80px;        /* Adjust header height */
   --overlay-opacity: 0.5;       /* Adjust overlay transparency */
   --transition-speed: 0.3s;     /* For hover/focus transitions */
   --hero-slide-duration: 5s;    /* Interval for automatic slide change */
@@ -36,12 +34,10 @@ img {
   height: auto;
 }
 
-/* Remove default list styling */
 ul, li {
   list-style: none;
 }
 
-/* Anchor reset */
 a {
   text-decoration: none;
   color: inherit;
@@ -51,95 +47,87 @@ a {
    HEADER
    ======================= */
 .header {
-  position: sticky; /* Stays on top when scrolling */
+  position: sticky;
   top: 0;
   width: 100%;
-  height: var(--header-height);
   background-color: var(--primary-color);
+  z-index: 999;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-  z-index: 999; /* Ensure it stays above other elements */
+  flex-direction: column;
 }
 
+/* Logo Section */
 .logo-section {
+  padding: 1rem;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-  height: 50px;
+  height: 80px;
   width: auto;
-  /* Adjust if you want a specific size */
-  margin-right: 1rem;
+  object-fit: contain;
 }
 
-.contact-bar {
-  display: none; /* Hidden by default, can be shown on desktop if desired */
-  align-items: center;
-}
-
-/* Example styling if you want the contact items visible in header on large screens */
-.contact-item {
-  color: var(--light-text-color);
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  transition: color var(--transition-speed);
-}
-
-.contact-item i {
-  margin-right: 0.3rem;
-}
-
-.contact-item:hover {
-  color: #fff; /* Subtle hover change */
-}
-
-/* NAVBAR */
+/* Navigation */
 .navbar {
-  display: flex;
-  align-items: center;
-}
-
-.hamburger {
-  display: none; /* Will display on mobile only */
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--light-text-color);
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-list {
   display: flex;
-  align-items: center;
-}
-
-.nav-list li {
-  margin-left: 1.5rem;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .nav-list a {
   color: var(--light-text-color);
   font-weight: 500;
+  padding: 0.5rem 1rem;
   transition: color var(--transition-speed);
 }
 
 .nav-list a:hover {
-  color: #ffffffcc; /* Slightly lighter on hover */
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Rating in nav (optional highlight) */
-.rating-link {
-  font-weight: 600;
-  color: #fff;
+/* Contact Bar */
+.contact-bar {
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
 }
 
-/* Hero Section */
+.contact-item {
+  color: var(--light-text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color var(--transition-speed);
+}
+
+.contact-item i {
+  font-size: 1.2rem;
+}
+
+.contact-item:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hamburger {
+  display: none;
+}
+
+/* =======================
+   HERO SECTION
+   ======================= */
 .hero {
   position: relative;
   width: 100%;
-  height: 80vh;
+  height: var(--hero-height);
   min-height: 500px;
   overflow: hidden;
 }
@@ -187,7 +175,7 @@ a {
 }
 
 .hero-desc {
-  color: #fff;
+  color: var(--light-text-color);
   font-size: 2.5rem;
   max-width: 800px;
   margin-bottom: 2rem;
@@ -196,15 +184,66 @@ a {
 
 .hero-cta {
   background: var(--accent-color);
-  color: #fff;
+  color: var(--light-text-color);
   padding: 1rem 2rem;
   border-radius: 4px;
   font-size: 1.2rem;
-  transition: background 0.3s ease;
+  transition: all var(--transition-speed);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* Mobile Adjustments */
+.hero-cta:hover {
+  background: #ff7f32;
+  transform: translateY(-2px);
+}
+
+/* =======================
+   RESPONSIVE STYLES
+   ======================= */
 @media (max-width: 768px) {
+  /* Mobile Header */
+  .header {
+    position: sticky;
+    top: 0;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--light-text-color);
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  .navbar {
+    padding: 0;
+  }
+
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .nav-list.active {
+    display: flex;
+  }
+
+  .contact-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  /* Mobile Hero */
   .hero {
     height: 60vh;
     min-height: 400px;
@@ -212,7 +251,6 @@ a {
 
   .hero-overlay {
     padding: 1rem;
-    justify-content: center; /* Keep centered on mobile */
   }
 
   .hero-desc {
@@ -220,7 +258,7 @@ a {
     margin-bottom: 1rem;
     line-height: 1.1;
     max-width: 90%;
-    padding: 0.5rem; /* Tighter padding */
+    padding: 0.5rem;
   }
 
   .hero-cta {
@@ -228,50 +266,3 @@ a {
     font-size: 1rem;
   }
 }
-
-/* =======================
-   RESPONSIVE BREAKPOINTS
-   ======================= */
-
-/* Example: Show contact-bar, tweak layout for larger screens */
-@media (min-width: 768px) {
-  .contact-bar {
-    display: flex;
-    margin-right: 2rem;
-  }
-  .hamburger {
-    display: none; /* hidden on tablets & desktops if we want a normal nav */
-  }
-  .nav-list {
-    display: flex;
-    margin-left: 1rem;
-  }
-}
-
-/* Mobile / smaller devices */
-@media (max-width: 767px) {
-  .hamburger {
-    display: block;
-    margin-left: auto;
-  }
-  .nav-list {
-    position: absolute;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    background-color: var(--primary-color);
-    flex-direction: column;
-    align-items: flex-start;
-    transform: translateY(-200%);
-    transition: transform var(--transition-speed);
-    text-align: left;
-    padding: 1rem;
-  }
-  .nav-list.active {
-    transform: translateY(0);
-  }
-  .nav-list li {
-    margin: 1rem 0;
-  }
-}
-
