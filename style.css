@@ -275,36 +275,34 @@ a {
     font-size: 1rem;
   }
 }
-/* ==================================== */
-/* ABOUT US (GRADIENT + BOXED CONTAINER)*/
-/* ==================================== */
+/* =============== */
+/* ABOUT US (SPLIT)*/
+/* =============== */
 
 .about-us-section {
-  padding: 6rem 2rem;
-  /* Soft gradient background */
-  background: linear-gradient(120deg, #f0f4ff 0%, #ffffff 100%);
+  padding: 5rem 2rem;
+  background-color: #fdfdfd;  /* Light background */
 }
 
 .about-container {
-  max-width: 1000px;
-  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-  overflow: hidden;
-  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+  flex-wrap: wrap; /* Stacks on mobile */
 }
 
-/* Slider half */
+/* Slider container */
 .about-image {
-  flex: 1 1 50%;
   position: relative;
-  min-height: 400px;
-  max-height: 500px;
+  flex: 1 1 500px; 
+  min-width: 300px;
+  height: 400px;
   overflow: hidden;
-  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .about-image .slide {
@@ -326,49 +324,48 @@ a {
   object-fit: cover;
 }
 
-/* Text half */
+/* Text portion */
 .about-text {
-  flex: 1 1 50%;
-  padding: 3rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex: 1 1 400px;
+  min-width: 300px;
+  padding: 1rem;
 }
 
 .about-heading {
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: var(--primary-color);
-  margin-bottom: 1rem;
   font-weight: 600;
+  margin-bottom: 1rem;
   position: relative;
 }
 
-.about-heading::before {
-  content: "";
+.about-heading::after {
+  content: '';
   display: block;
-  width: 80px;
+  width: 60px;
   height: 4px;
   background: var(--accent-color);
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
   border-radius: 2px;
 }
 
 .about-description {
-  font-size: 1rem;
+  color: #555;
   line-height: 1.6;
-  color: #666;
+  margin-top: 1rem;
 }
 
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .about-container {
     flex-direction: column;
   }
   .about-image {
-    min-height: 250px;
-    max-height: none;
+    height: 250px; 
   }
   .about-heading {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 }
+
+
