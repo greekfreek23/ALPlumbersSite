@@ -276,12 +276,13 @@ a {
   }
 }
 /* =============== */
+/* =============== */
 /* ABOUT US (SPLIT)*/
 /* =============== */
 
 .about-us-section {
   padding: 5rem 2rem;
-  background-color: #fdfdfd;  /* Light background */
+  background-color: #fdfdfd; /* Light background */
 }
 
 .about-container {
@@ -294,20 +295,27 @@ a {
   flex-wrap: wrap; /* Stacks on mobile */
 }
 
-/* Slider container */
+/* Slider container for the About images */
 .about-image {
   position: relative;
   flex: 1 1 500px; 
   min-width: 300px;
-  height: 400px;
+  max-height: 400px; /* Keeps the image from being too tall on desktop */
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* Each slide (populated by your JS) */
 .about-image .slide {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease;
@@ -318,13 +326,17 @@ a {
   visibility: visible;
 }
 
+/* The actual <img> inside the slide */
+/* Using 'object-fit: contain' ensures the entire image is visible, no trimming */
 .about-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 100%; /* Enforce the container’s max-height limit */
+  object-fit: contain;
+  display: block;
 }
 
-/* Text portion */
+/* Text portion on the right */
 .about-text {
   flex: 1 1 400px;
   min-width: 300px;
@@ -355,17 +367,21 @@ a {
   margin-top: 1rem;
 }
 
-/* Responsive */
+/* Responsive: stack image above text on narrow screens */
 @media (max-width: 768px) {
   .about-container {
     flex-direction: column;
   }
+
+  /* Lower the max-height further for mobile so it’s not too tall */
   .about-image {
-    height: 250px; 
+    max-height: 250px;
   }
+
   .about-heading {
     font-size: 1.6rem;
   }
 }
+
 
 
