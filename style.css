@@ -275,39 +275,44 @@ a {
     font-size: 1rem;
   }
 }
-/* ====================================== */
-/* ABOUT US (FULL-WIDTH SLIDER + OVERLAY) */
-/* ====================================== */
+/* ==================================== */
+/* ABOUT US (GRADIENT + BOXED CONTAINER)*/
+/* ==================================== */
 
 .about-us-section {
-  position: relative;
-  min-height: 500px;
+  padding: 6rem 2rem;
+  /* Soft gradient background */
+  background: linear-gradient(120deg, #f0f4ff 0%, #ffffff 100%);
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
   overflow: hidden;
-  background: #000; /* fallback color */
+  position: relative;
 }
 
-/* The slider container takes full section space */
-.about-image[data-about-slider] {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+/* Slider half */
+.about-image {
+  flex: 1 1 50%;
+  position: relative;
+  min-height: 400px;
+  max-height: 500px;
+  overflow: hidden;
+  background: #f9f9f9;
 }
 
-/* Each slide is layered. Only .active is visible. */
 .about-image .slide {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; right: 0; bottom: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease;
-  background-size: cover;
-  background-position: center;
 }
 
 .about-image .slide.active {
@@ -315,54 +320,55 @@ a {
   visibility: visible;
 }
 
-/* If using <img> tags inside .slide: */
-.about-image .slide img {
+.about-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* The overlay container with text */
-.about-container {
-  position: relative;
-  z-index: 1; /* above the background slides */
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
+/* Text half */
+.about-text {
+  flex: 1 1 50%;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .about-heading {
-  font-size: 2rem;
-  color: #fff;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.about-heading::before {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--accent-color);
+  margin-bottom: 1rem;
+  border-radius: 2px;
 }
 
 .about-description {
-  color: #f0f0f0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.6;
+  color: #666;
 }
 
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .about-us-section {
-    min-height: 300px;
-  }
   .about-container {
-    padding: 3rem 1.5rem;
+    flex-direction: column;
+  }
+  .about-image {
+    min-height: 250px;
+    max-height: none;
   }
   .about-heading {
-    font-size: 1.6rem;
-  }
-  .about-description {
-    font-size: 1rem;
+    font-size: 1.8rem;
   }
 }
-
-
