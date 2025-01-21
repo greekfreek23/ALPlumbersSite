@@ -27,7 +27,7 @@ body {
   line-height: 1.6;
 }
 
-/* HEADER */
+/* Header structure */
 .header {
   width: 100%;
   background: var(--secondary-color);
@@ -36,51 +36,34 @@ body {
   z-index: 1000;
 }
 
-/* Logo in header */
+/* Logo section with improved spacing */
 .logo-section {
-  text-align: center;
-  padding: 1rem;
-  background: var(--secondary-color);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--secondary-color);
+  position: relative;
+  min-height: 120px;
 }
 
+/* Logo with larger, more impactful size */
 .logo {
   width: auto;
-  height: clamp(40px, 8vw, 120px); /* Responsive height based on viewport width */
+  height: clamp(80px, 15vw, 180px); /* Increased size range */
   object-fit: contain;
   object-position: center;
+  transition: var(--transition);
 }
 
-/* Logo in contact form */
-.form-logo {
-  width: auto;
-  height: clamp(30px, 6vw, 80px);
-  object-fit: contain;
-  object-position: center;
-  margin: 0 auto 1.5rem;
-}
-
-/* Add responsive handling for different screen sizes */
-@media (max-width: 768px) {
-  .logo-section {
-    padding: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo-section {
-    padding: 0.5rem;
-  }
-}
+/* Contact bar improvements */
 .contact-bar {
   background: var(--primary-color);
-  padding: 8px;
+  padding: 0.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 2rem; /* Increased spacing between contact items */
 }
 
 .contact-item {
@@ -88,37 +71,25 @@ body {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  padding: 4px 10px;
+  gap: 8px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   border-radius: 4px;
   transition: var(--transition);
 }
 
-.contact-item:hover {
-  background: var(--accent-color);
-}
-
+/* Navigation improvements */
 .navbar {
   background: var(--primary-color);
-  padding: 0.5em;
+  padding: 1rem 2rem;
   position: relative;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.hamburger {
-  display: none;
-  color: #fff;
-  font-size: 1.8em;
-  cursor: pointer;
-  padding: 5px 10px;
 }
 
 .nav-list {
   list-style: none;
   display: flex;
-  gap: 1.2em;
+  gap: 2rem; /* Increased spacing between nav items */
   justify-content: center;
   margin: 0;
   padding: 0;
@@ -127,20 +98,86 @@ body {
 .nav-list li a {
   color: #fff;
   text-decoration: none;
+  font-size: 1.1rem; /* Slightly larger nav text */
   font-weight: 700;
-  padding: 6px 10px;
+  padding: 0.75rem 1.25rem;
   border-radius: 4px;
   transition: var(--transition);
 }
 
-.nav-list li a:hover {
-  background: var(--accent-color);
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .logo {
+    height: clamp(70px, 12vw, 150px);
+  }
+  
+  .logo-section {
+    min-height: 100px;
+    padding: 1.25rem 1.5rem;
+  }
 }
 
-.rating-link {
-  font-size: 0.9em;
-}
+@media (max-width: 768px) {
+  .logo-section {
+    min-height: 90px;
+    padding: 1rem;
+  }
+  
+  .logo {
+    height: clamp(60px, 10vw, 120px);
+  }
+  
+  .contact-bar {
+    padding: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .contact-item {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  /* Improved mobile navigation */
+  .hamburger {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    font-size: 1.8rem;
+    color: #fff;
+    z-index: 1000;
+    padding: 0.5rem;
+  }
 
+  .nav-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--primary-color);
+    padding: 1rem;
+    gap: 0.75rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-list.active {
+    display: flex;
+  }
+
+  .nav-list li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-list li a {
+    display: block;
+    padding: 0.75rem;
+  }
+}
 /* HERO */
 .hero {
   position: relative;
