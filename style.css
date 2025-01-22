@@ -272,6 +272,7 @@ a {
     font-size: 1rem;
   }
 }
+
 /* =======================
    ABOUT SECTION
    ======================= */
@@ -281,21 +282,22 @@ a {
   position: relative;
 }
 
+/* Container Setup */
 .about-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1400px;  /* Increased from 1200px to accommodate larger image */
+  max-width: 1400px;  /* Increased from 1200px to accommodate larger images */
   margin: 0 auto;
   gap: 4rem;
   flex-wrap: wrap;
 }
 
-/* Image container */
+/* Image Container */
 .about-image {
-  flex: 1 1 1000px;  /* Doubled from 500px */
+  flex: 1 1 600px;  /* Adjusted flex-basis for better responsiveness */
   min-width: 300px;
-  height: 600px;     /* Increased from 300px */
+  height: 400px;     /* Adjusted height for better aspect ratio */
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
@@ -304,16 +306,16 @@ a {
   transition: transform 0.5s ease;
 }
 
-/* Image styling */
 .about-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* Changed to cover for better image coverage */
   object-position: center;
   transition: transform 0.5s ease;
   background-color: #f8f9fa;
 }
 
+/* Hover Effects */
 .about-image:hover {
   transform: perspective(1000px) rotateY(0deg);
 }
@@ -322,9 +324,9 @@ a {
   transform: scale(1.05);
 }
 
-/* Text content */
+/* Text Content */
 .about-text {
-  flex: 1 1 450px;
+  flex: 1 1 500px; /* Adjusted flex-basis for better responsiveness */
   min-width: 300px;
   padding: 2.5rem;
   background: rgba(255, 255, 255, 0.95);
@@ -375,7 +377,7 @@ a {
   }
   
   .about-image {
-    height: 450px;  /* Made larger on mobile too */
+    height: 300px;  /* Reduced height for smaller screens */
     transform: none;
     width: 100%;
   }
@@ -396,6 +398,8 @@ a {
   .about-description {
     font-size: 1rem;
   }
+}
+
 }
 .service-heading {
   font-size: 2em;
