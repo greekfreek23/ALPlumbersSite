@@ -749,64 +749,35 @@ a {
     width: 50px;
   }
 }
+/* REVIEWS */
 .reviews-section {
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  position: relative;
+  padding: 60px 20px;
+  background: #f9f9f9;
+  text-align: center;
   overflow: hidden;
 }
 
-/* Stats Counter Section */
-.review-stats {
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
+.reviews-header {
+  font-size: 2em;
+  margin-bottom: 30px;
+  color: var(--primary-color);
 }
 
-.total-rating {
-  font-size: 4rem;
-  font-weight: bold;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  animation: countUp 2s ease-out;
+.rating-info {
+  margin-bottom: 30px;
 }
 
 .rating-stars {
-  font-size: 2rem;
+  font-size: 2em;
   color: #FFD700;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
+  margin-bottom: 10px;
 }
 
-.star {
-  opacity: 0;
-  animation: popIn 0.5s forwards;
+.rating-text {
+  font-size: 1.1em;
+  color: var(--text-dark);
 }
 
-.star:nth-child(1) { animation-delay: 0.1s; }
-.star:nth-child(2) { animation-delay: 0.2s; }
-.star:nth-child(3) { animation-delay: 0.3s; }
-.star:nth-child(4) { animation-delay: 0.4s; }
-.star:nth-child(5) { animation-delay: 0.5s; }
-
-@keyframes popIn {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  80% {
-    transform: scale(1.2);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Slideshow container */
 .reviews-slider {
   position: relative;
   width: 100%;
@@ -818,11 +789,50 @@ a {
   display: flex;
   width: max-content;
   gap: 20px;
-  animation: slide 30s linear infinite;
+  padding: 0 20px;
+  will-change: transform;
 }
 
-.reviews-track:hover {
-  animation-play-state: paused;
+.review-card {
+  flex: 0 0 300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: all 0.3s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.reviewer-name {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.review-stars {
+  color: #FFD700;
+  font-size: 1.1em;
+  margin-bottom: 12px;
+}
+
+.review-text {
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #555;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
 
 @keyframes slide {
@@ -834,52 +844,10 @@ a {
   }
 }
 
-/* Review Card Styling */
-.review-card {
-  flex: 0 0 300px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  animation: float-card 6s ease-in-out infinite;
-  position: relative;
+.reviews-track:hover {
+  animation-play-state: paused;
 }
 
-.review-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-@keyframes float-card {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.reviewer-name {
-  font-weight: bold;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.review-stars {
-  color: #FFD700;
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-}
-
-.review-text {
-  color: #444;
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-/* Gradient edges for slideshow */
 .reviews-slider::before,
 .reviews-slider::after {
   content: '';
@@ -901,98 +869,54 @@ a {
   background: linear-gradient(to left, #f9f9f9, transparent);
 }
 
-.total-reviews {
-  color: #666;
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
+.leave-review-container {
+  margin-top: 40px;
+  text-align: center;
+  width: 100%;
+}
+
+.review-button {
+  display: inline-block;
+  padding: 12px 30px;
+  background: var(--accent-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.review-button:hover {
+  background: var(--primary-color);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
   .reviews-section {
-    padding: 3rem 1rem;
+    padding: 40px 15px;
   }
-  
-  .total-rating {
-    font-size: 3rem;
-  }
-  
   .review-card {
     flex: 0 0 280px;
-    padding: 1.25rem;
+    padding: 15px;
+    min-height: 180px;
   }
-  
   .reviews-slider::before,
   .reviews-slider::after {
     width: 50px;
   }
 }
-</style>
-</head>
-<body>
-  <div class="reviews-section">
-    <!-- Stats Counter -->
-    <div class="review-stats">
-      <div class="total-rating">4.9</div>
-      <div class="rating-stars">
-        <div class="star">★</div>
-        <div class="star">★</div>
-        <div class="star">★</div>
-        <div class="star">★</div>
-        <div class="star">★</div>
-      </div>
-      <div class="total-reviews">156 Reviews</div>
-    </div>
 
-    <!-- Reviews Slider -->
-    <div class="reviews-slider">
-      <div class="reviews-track">
-        <!-- Review cards will be duplicated for infinite scroll -->
-        <div class="review-card">
-          <div class="reviewer-name">John Doe</div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">
-            Exceptional service! Quick response and professional work. Very satisfied with the results.
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="reviewer-name">Sarah Miller</div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">
-            Great experience! Professional team and reasonable prices. Would definitely recommend.
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="reviewer-name">Robert Johnson</div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">
-            Responsive and reliable. Excellent service from start to finish. Very happy customer!
-          </div>
-        </div>
-
-        <!-- Duplicate cards for continuous scroll -->
-        <div class="review-card">
-          <div class="reviewer-name">John Doe</div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">
-            Exceptional service! Quick response and professional work. Very satisfied with the results.
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="reviewer-name">Sarah Miller</div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">
-            Great experience! Professional team and reasonable prices. Would definitely recommend.
-          </div>
-        </div>
-
-        <div class="review-card">
-          <div class="reviewer-name">Robert Johnson</div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">
-            Responsive and reliable. Excellent service from start to finish. Very happy customer!
+@media (max-width: 480px) {
+  .review-card {
+    flex: 0 0 260px;
+  }
+  .review-text {
+    -webkit-line-clamp: 4;
+  }
+  .reviews-header {
+    font-size: 1.6em;
+  }
+}
 
 
 /* CONTACT */
