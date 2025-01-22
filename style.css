@@ -46,30 +46,33 @@ a {
 /* =======================
    HEADER
    ======================= */
+/* =======================
+   HEADER
+   ======================= */
 .header {
-  position: sticky;
-  top: 0;
   width: 100%;
   background-color: var(--primary-color);
   z-index: 999;
   display: flex;
   flex-direction: column;
+  position: relative; /* Changed from sticky/fixed */
 }
 
 /* Logo Section */
 .logo-section {
-  padding: 0.75rem;  /* Slightly reduced padding */
+  padding: 0.75rem;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.logo {
-  height: 80px;
-  width: auto;
-  object-fit: contain;
+@media (max-width: 768px) {
+  .header {
+    position: relative;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
 }
-
 /* Navigation */
 .navbar {
   padding: 0.75rem;  /* Slightly reduced padding */
