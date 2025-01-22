@@ -377,7 +377,7 @@ a {
   }
   
   .about-image {
-    height: 300px;  /* Reduced height for smaller screens */
+    height: 200px;  /* Reduced height for smaller screens */
     transform: none;
     width: 100%;
   }
