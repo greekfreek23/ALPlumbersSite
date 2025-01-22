@@ -22,16 +22,31 @@
 /* =======================
    GLOBAL BASE STYLE
    ======================= */
+/* =======================
+   GLOBAL BASE STYLES
+   ======================= */
 body {
   font-family: var(--font-family);
   color: var(--text-color);
   line-height: 1.4;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+body.loaded {
+  opacity: 1;
 }
 
 img {
   display: block;
   max-width: 100%;
   height: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+img.loaded {
+  opacity: 1;
 }
 
 ul, li {
