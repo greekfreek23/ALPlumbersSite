@@ -277,13 +277,14 @@ a {
 }
 /* ====================================== */
 /* ===============
-/* Enhanced About Us Section */
+/* About Us Section Enhancement */
 .about-us-section {
   padding: 6rem 2rem;
   background: linear-gradient(to right, #f8f9fa, #ffffff, #f8f9fa);
   position: relative;
 }
 
+/* Container with multiple sizing options */
 .about-container {
   display: flex;
   align-items: center;
@@ -294,80 +295,104 @@ a {
   flex-wrap: wrap;
 }
 
+/* Image sizing variations */
 .about-image {
+  /* Option 1: Fixed size with aspect ratio */
   flex: 1 1 500px;
   min-width: 300px;
   height: 500px;
+  
+  /* Option 2: Dynamic sizing with aspect ratio preservation */
+  /*
+  flex: 1 1 45%;
+  min-width: 300px;
+  aspect-ratio: 4/5;
+  height: auto;
+  */
+  
+  /* Option 3: Full-width responsive */
+  /*
+  flex: 1 1 100%;
+  min-height: 400px;
+  max-height: 600px;
+  */
+
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
   position: relative;
   transform: perspective(1000px) rotateY(-5deg);
-  transition: transform 0.5s ease;
+  transition: all 0.5s ease;
 }
 
+/* Enhanced image hover effects */
 .about-image:hover {
-  transform: perspective(1000px) rotateY(0deg);
+  transform: perspective(1000px) rotateY(0deg) translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 
-.about-image .slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 1s ease, visibility 1s ease;
-}
-
-.about-image .slide.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.about-image .slide img {
+/* Image content styling */
+.about-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
+.about-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Text content improvements */
 .about-text {
   flex: 1 1 450px;
   min-width: 300px;
-  padding: 2rem;
+  padding: 2.5rem;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
+/* Enhanced heading with decorative line */
 .about-heading {
   font-size: 2.5rem;
   color: var(--primary-color);
   font-weight: 700;
   margin-bottom: 1.5rem;
   position: relative;
+  padding-bottom: 1rem;
 }
 
+/* Option 1: Gradient line */
 .about-heading::after {
   content: '';
-  display: block;
-  width: 80px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
   height: 4px;
-  background: var(--accent-color);
-  margin-top: 0.8rem;
+  background: linear-gradient(to right, var(--accent-color), var(--primary-color));
   border-radius: 2px;
 }
 
-.about-description {
-  color: #444;
-  line-height: 1.8;
-  font-size: 1.1rem;
-  margin-top: 1.5rem;
-  position: relative;
-  padding-left: 1rem;
-  border-left: 3px solid var(--accent-color);
+/* Option 2: Animated line (uncomment to use) */
+/*
+.about-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 2px;
+  transition: width 0.3s ease;
 }
+
+.about-text:hover .about-heading::after {
+  width: 100px;
+}
+*/
 
 /* Responsive improvements */
 @media (max-width: 768px) {
@@ -381,8 +406,17 @@ a {
   }
   
   .about-image {
+    /* Mobile Option 1: Shorter fixed height */
     height: 350px;
+    
+    /* Mobile Option 2: Screen-relative height */
+    /* height: 50vh; */
+    
+    /* Mobile Option 3: Aspect ratio */
+    /* aspect-ratio: 16/9; */
+    
     transform: none;
+    width: 100%;
   }
   
   .about-text {
@@ -391,79 +425,6 @@ a {
   
   .about-heading {
     font-size: 2rem;
-  }
-  
-  .about-description {
-    font-size: 1rem;
-    padding-left: 0.8rem;
-  }
-}
-@keyframes pulse {
-  0% {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(-50%) scale(1.5);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-  }
-}
-
-.about-description {
-  color: #555;
-  line-height: 1.8;
-  font-size: 1.1rem;
-  margin-top: 2rem;
-  text-align: center;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .about-us-section {
-    padding: 4rem 1.5rem;
-  }
-  
-  .about-container {
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .about-image {
-    transform: none;
-  }
-  
-  .about-text {
-    padding: 1.5rem;
-  }
-  
-  .about-heading {
-    font-size: 2rem;
-  }
-  
-  .about-description {
-    font-size: 1rem;
-  }
-}
-
-/* Mobile: stack the image above the text & reduce height further */
-@media (max-width: 768px) {
-  .about-container {
-    flex-direction: column;
-  }
-
-  .about-image {
-    height: 250px; /* Shorter on mobile */
-  }
-
-  .about-heading {
-    font-size: 1.6rem;
   }
 }
 /* SERVICES */
