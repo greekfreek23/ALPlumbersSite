@@ -46,18 +46,34 @@ a {
 /* =======================
    HEADER
    ======================= */
-/* =======================
-   HEADER
-   ======================= */
 .header {
   width: 100%;
   background-color: var(--primary-color);
-  z-index: 999;
+  z-index: 1; /* Reduced from 999 */
   display: flex;
   flex-direction: column;
-  position: relative; /* Changed from sticky/fixed */
+  position: relative;
+  top: auto; /* Explicitly remove any top positioning */
 }
 
+/* Reset any potential sticky behavior on all devices */
+@media screen and (min-width: 0px) {
+  .header {
+    position: relative !important; /* Force override */
+    position: static !important; /* Double ensure no stickiness */
+    transform: none !important; /* Remove any transform that might cause issues */
+    top: auto !important;
+    z-index: 1 !important;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .header {
+    position: relative !important;
+    top: auto !important;
+  }
+}
 /* Logo Section */
 .logo-section {
   padding: 0.75rem;
