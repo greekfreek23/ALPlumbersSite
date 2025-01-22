@@ -373,7 +373,8 @@ a {
   transition: transform 0.3s ease;
 }
 
-/* Mobile Responsive */
+/* Keeping everything the same but adjusting mobile height */
+
 @media (max-width: 768px) {
   .about-us-section {
     padding: 4rem 1.5rem;
@@ -385,7 +386,7 @@ a {
   }
   
   .about-image {
-    height: 300px;
+    height: 225px;  /* Reduced from 300px to 225px (25% smaller) */
     transform: none;
     width: 100%;
   }
