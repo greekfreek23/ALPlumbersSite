@@ -281,6 +281,7 @@ a {
 .about-us-section {
   padding: 6rem 2rem;
   background: linear-gradient(to right, #f8f9fa, #ffffff, #f8f9fa);
+  position: relative;
 }
 
 .about-container {
@@ -293,47 +294,49 @@ a {
   flex-wrap: wrap;
 }
 
-/* Image container improvements */
 .about-image {
   flex: 1 1 500px;
   min-width: 300px;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
   position: relative;
   transform: perspective(1000px) rotateY(-5deg);
-  transition: all 0.5s ease;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transition: transform 0.5s ease;
 }
 
 .about-image:hover {
   transform: perspective(1000px) rotateY(0deg);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
 }
 
 .about-image .slide {
-  width: 100%;
-  padding-bottom: 75%; /* 4:3 aspect ratio */
-  position: relative;
-  background: white;
-}
-
-.about-image .slide img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 1rem;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
 }
 
-/* Text content improvements */
+.about-image .slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.about-image .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .about-text {
   flex: 1 1 450px;
   min-width: 300px;
-  text-align: center;
-  padding: 2.5rem;
-  background: #ffffff;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
@@ -342,39 +345,59 @@ a {
   font-size: 2.5rem;
   color: var(--primary-color);
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   position: relative;
-  display: inline-block;
-  text-align: center;
 }
 
-/* Modern animated decoration */
 .about-heading::after {
   content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
+  display: block;
+  width: 80px;
   height: 4px;
   background: var(--accent-color);
+  margin-top: 0.8rem;
   border-radius: 2px;
 }
 
-/* Create pulsing dots */
-.about-heading::before {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background: var(--accent-color);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+.about-description {
+  color: #444;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  position: relative;
+  padding-left: 1rem;
+  border-left: 3px solid var(--accent-color);
 }
 
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .about-us-section {
+    padding: 4rem 1.5rem;
+  }
+  
+  .about-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .about-image {
+    height: 350px;
+    transform: none;
+  }
+  
+  .about-text {
+    padding: 1.5rem;
+  }
+  
+  .about-heading {
+    font-size: 2rem;
+  }
+  
+  .about-description {
+    font-size: 1rem;
+    padding-left: 0.8rem;
+  }
+}
 @keyframes pulse {
   0% {
     transform: translateX(-50%) scale(1);
