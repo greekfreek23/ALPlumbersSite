@@ -17,7 +17,9 @@
 
   // 2) Fetch finalWebsiteData.json from your GitHub
   const DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/finalWebsiteData.json"; 
-  // ^ Adjust if your file is elsewhere or on a different branch
+
+  // Hide body initially
+  document.body.style.opacity = '0';
 
   fetch(DATA_URL)
     .then(resp => {
@@ -39,8 +41,10 @@
       console.error("Error loading or parsing finalWebsiteData.json:", err);
     });
 
-  function initializeSite(data){
-    console.log("Loaded business data:", data);
+  function initializeSite(data) {
+    // Wait for initial content to be ready
+    const images = document.querySelectorAll('img');
+    let loadedImages = 0;
 
     // 1) Theming colors
     if(data.secondaryColor) {
@@ -103,8 +107,28 @@
       document.querySelectorAll("[data-logo]").forEach(el => {
         el.src = data.logo;
         el.alt = bn + " Logo";
+        // Add load event listener
+        el.addEventListener('load', handleImageLoad);
       });
     }
+
+    // Handle image loading
+    function handleImageLoad() {
+      loadedImages++;
+      this.classList.add('loaded');
+      if (loadedImages === images.length) {
+        finishInitialization();
+      }
+    }
+
+    // Add load listeners to all images
+    images.forEach(img => {
+      if (img.complete) {
+        handleImageLoad.call(img);
+      } else {
+        img.addEventListener('load', handleImageLoad);
+      }
+    });
 
     // reviews link
     if(data.reviewsLink) {
@@ -118,53 +142,49 @@
       el.textContent = data.aboutUs || "We proudly serve the community with reliable, top-notch plumbing.";
     });
 
-    // Why Choose Us?
-    initWhyChooseUs(data.whyChooseUs || {});
+    function finishInitialization() {
+      // Initialize all components
+      initHeroImages(data.photos.heroImages || []);
+      initAboutSlider(data.photos.aboutUsImages || []);
+      initReviews(data.fiveStarReviews || []);
 
-    // Initialize hero images
-    initHeroImages(data.photos.heroImages || []);
+      // Nav hamburger
+      const hamburger = document.querySelector(".hamburger");
+      const navList = document.querySelector(".nav-list");
+      if(hamburger && navList) {
+        hamburger.addEventListener("click", () => {
+          navList.classList.toggle("active");
+        });
+      }
 
-    // Initialize about images
-    initAboutSlider(data.photos.aboutUsImages || []);
+      // Start hero slider
+      startHeroSlider();
 
-    // Initialize reviews
-    initReviews(data.fiveStarReviews || []);
-
-    // Nav hamburger
-    const hamburger = document.querySelector(".hamburger");
-    const navList = document.querySelector(".nav-list");
-    if(hamburger && navList) {
-      hamburger.addEventListener("click", () => {
-        navList.classList.toggle("active");
-      });
-    }
-
-    // Start hero slider
-    startHeroSlider();
-  }
-
-  function initWhyChooseUs(whyObj){
-    const mainPitch = whyObj.mainPitch || "Why we're the best choice!";
-    const pitchEl = document.querySelector("[data-main-pitch]");
-    if(pitchEl) pitchEl.textContent = mainPitch;
-
-    const listEl = document.querySelector("[data-selling-points]");
-    if(listEl) {
-      listEl.innerHTML = "";
-      const sellingPoints = Array.isArray(whyObj.sellingPoints) ? whyObj.sellingPoints : [];
-      sellingPoints.forEach(point => {
-        const li = document.createElement("li");
-        li.textContent = point;
-        listEl.appendChild(li);
-      });
+      // Show the page
+      setTimeout(() => {
+        document.body.classList.add('loaded');
+        document.body.style.opacity = '1';
+      }, 100);
     }
   }
 
   function initHeroImages(heroImages) {
     const slides = document.querySelectorAll('.slides .slide');
+    let loadedHeroImages = 0;
+    const totalHeroImages = heroImages.length;
+
     slides.forEach((slide, index) => {
       if(heroImages[index] && heroImages[index].imageUrl) {
-        slide.style.backgroundImage = `url('${heroImages[index].imageUrl}')`;
+        const img = new Image();
+        img.onload = () => {
+          slide.style.backgroundImage = `url('${heroImages[index].imageUrl}')`;
+          loadedHeroImages++;
+          if(loadedHeroImages === totalHeroImages) {
+            slide.style.opacity = '1';
+          }
+        };
+        img.src = heroImages[index].imageUrl;
+        
         const ctaEl = slide.querySelector(`[data-hero-cta="${index}"]`);
         if(ctaEl) {
           ctaEl.textContent = heroImages[index].callToAction || "";
@@ -199,58 +219,53 @@
     }
   }
 
-function initReviews(fiveStarReviews) {
-  const track = document.getElementById("reviewsTrack");
-  if (!track) return;
-  track.innerHTML = "";
+  function initReviews(fiveStarReviews) {
+    const track = document.getElementById("reviewsTrack");
+    if (!track) return;
+    track.innerHTML = "";
 
-  if (!fiveStarReviews.length) {
-    console.warn("No 5-star reviews found for this business.");
-    return;
+    if (!fiveStarReviews.length) {
+      console.warn("No 5-star reviews found for this business.");
+      return;
+    }
+
+    const duplicatedReviews = Array(20).fill(fiveStarReviews).flat();
+    const SECONDS_PER_REVIEW = 5;
+    const totalDuration = duplicatedReviews.length * SECONDS_PER_REVIEW;
+
+    duplicatedReviews.forEach(r => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.style.flex = "0 0 300px";
+
+      const nameEl = document.createElement("h4");
+      nameEl.className = "reviewer-name";
+      nameEl.textContent = r.reviewerName || "Anonymous";
+
+      const starEl = document.createElement("div");
+      starEl.className = "review-stars";
+      starEl.textContent = "★★★★★";
+
+      const textEl = document.createElement("p");
+      textEl.className = "review-text";
+      textEl.textContent = r.reviewText || "Excellent service!";
+
+      card.appendChild(nameEl);
+      card.appendChild(starEl);
+      card.appendChild(textEl);
+      track.appendChild(card);
+    });
+
+    track.style.animation = `slide ${totalDuration}s linear infinite`;
+
+    track.addEventListener('mouseenter', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    
+    track.addEventListener('mouseleave', () => {
+      track.style.animationPlayState = 'running';
+    });
   }
-
-  // Create 20 copies of the reviews for a very long track
-  const duplicatedReviews = Array(20).fill(fiveStarReviews).flat();
-  
-  // Calculate animation duration based on TOTAL number of reviews
-  const SECONDS_PER_REVIEW = 5;
-  const totalDuration = duplicatedReviews.length * SECONDS_PER_REVIEW; // Using full length now
-
-  duplicatedReviews.forEach(r => {
-    const card = document.createElement("div");
-    card.className = "review-card";
-    card.style.flex = "0 0 300px";
-
-    const nameEl = document.createElement("h4");
-    nameEl.className = "reviewer-name";
-    nameEl.textContent = r.reviewerName || "Anonymous";
-
-    const starEl = document.createElement("div");
-    starEl.className = "review-stars";
-    starEl.textContent = "★★★★★";
-
-    const textEl = document.createElement("p");
-    textEl.className = "review-text";
-    textEl.textContent = r.reviewText || "Excellent service!";
-
-    card.appendChild(nameEl);
-    card.appendChild(starEl);
-    card.appendChild(textEl);
-    track.appendChild(card);
-  });
-
-  // Set the animation with the much longer duration
-  track.style.animation = `slide ${totalDuration}s linear infinite`;
-
-  // Hover handlers
-  track.addEventListener('mouseenter', () => {
-    track.style.animationPlayState = 'paused';
-  });
-  
-  track.addEventListener('mouseleave', () => {
-    track.style.animationPlayState = 'running';
-  });
-}
 
   function startHeroSlider(){
     const slides = document.querySelectorAll('.slides .slide');
