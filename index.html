@@ -4,27 +4,11 @@
   <meta charset="UTF-8" />
   <title>Anything Plumbing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">
-
-  <!-- Initial loading state styles -->
-  <style>
-    body {
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    body.loaded {
-      visibility: visible;
-      opacity: 1;
-    }
-  </style>
 
   <!-- Google Fonts (Poppins) -->
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
     rel="stylesheet"
-    media="print"
-    onload="this.media='all'"
   />
 
   <!-- Font Awesome 6.5.1 -->
@@ -33,12 +17,11 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
-    media="print"
-    onload="this.media='all'"
   />
 
   <!-- Link to external CSS -->
   <link rel="stylesheet" href="style.css" />
+
 </head>
 
 <body>
@@ -110,13 +93,21 @@
   <!-- ABOUT US SECTION -->
   <section class="about-us-section" id="about-us">
     <div class="about-container">
-      <div class="about-image" data-about-slider></div>
+      <!-- Slider container for images (populated by JS using data-about-slider) -->
+      <div class="about-image" data-about-slider>
+        <!-- The JS will create .slide elements with .active class rotating -->
+      </div>
+      <!-- Text container -->
       <div class="about-text">
         <h2 class="about-heading">About <span data-business-name></span></h2>
         <p class="about-description" data-about-content></p>
       </div>
     </div>
   </section>
+
+
+
+
 
   <!-- SERVICES SECTION -->
   <section class="services-section" id="services">
@@ -197,7 +188,9 @@
       </div>
     </div>
     <div class="reviews-slider">
-      <div class="reviews-track" id="reviewsTrack"></div>
+      <div class="reviews-track" id="reviewsTrack">
+        <!-- Populated via JS -->
+      </div>
     </div>
     <div class="leave-review-container">
       <a href="#" class="review-button" data-reviewlink>Leave Us a Review</a>
@@ -295,6 +288,14 @@
       <p>&copy; 2024 <span data-business-name></span>. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Optional Chat Script -->
+  <script 
+    src="https://widgets.leadconnectorhq.com/loader.js" 
+    data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+    data-widget-id="YOUR-CHAT-WIDGET-ID"
+    async>
+  </script>
 
   <!-- Link to external JS -->
   <script src="script.js"></script>
