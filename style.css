@@ -298,7 +298,7 @@ a {
 .about-image {
   flex: 1 1 500px;
   min-width: 300px;
-  height: 400px;
+  height: 300px;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
