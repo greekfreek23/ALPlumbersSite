@@ -1,6 +1,6 @@
 // script.js
 (function(){
-  // 1) Get ?site= parameter from URL
+  // Get site parameter from URL
   const urlParams = new URLSearchParams(window.location.search);
   const siteParam = urlParams.get('site');
   if(!siteParam) {
@@ -8,18 +8,15 @@
     return;
   }
 
-  // Remove single quotes, then slugify
+  // Clean up site parameter
   const normalizedSlug = siteParam
-    .replace(/'/g, '')           // remove apostrophes
+    .replace(/'/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g,'-')
     .replace(/^-+|-+$/g,'');
 
-  // 2) Fetch finalWebsiteData.json from your GitHub
+  // Fetch website data
   const DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/finalWebsiteData.json"; 
-
-  // Hide body initially
-  document.body.style.opacity = '0';
 
   fetch(DATA_URL)
     .then(resp => {
@@ -42,11 +39,7 @@
     });
 
   function initializeSite(data) {
-    // Wait for initial content to be ready
-    const images = document.querySelectorAll('img');
-    let loadedImages = 0;
-
-    // 1) Theming colors
+    // Set theme colors first
     if(data.secondaryColor) {
       document.documentElement.style.setProperty('--primary-color', data.secondaryColor);
     }
@@ -54,13 +47,12 @@
       document.documentElement.style.setProperty('--accent-color', data.primaryColor);
     }
 
-    // 2) Fill placeholders
-    const bn = data.businessName || "Anything Plumbing";
+    // Fill in all the dynamic content
+    const businessName = data.businessName || "Anything Plumbing";
     document.querySelectorAll("[data-business-name]").forEach(el => {
-      el.textContent = bn;
+      el.textContent = businessName;
     });
 
-    // phone
     const phone = data.phone || "(555) 123-4567";
     document.querySelectorAll("[data-phone]").forEach(el => {
       el.textContent = phone;
@@ -69,7 +61,6 @@
       }
     });
 
-    // email
     const email = data.email || "info@plumbing.com";
     document.querySelectorAll("[data-email]").forEach(el => {
       el.textContent = email;
@@ -78,17 +69,14 @@
       }
     });
 
-    // rating
     const rating = data.rating || "5";
     document.querySelectorAll("[data-rating]").forEach(el => el.textContent = rating);
 
-    // review count
-    const revCount = data.reviewsCount || "100";
+    const reviewCount = data.reviewsCount || "100";
     document.querySelectorAll("[data-reviews], [data-review-count]").forEach(el => {
-      el.textContent = revCount;
+      el.textContent = reviewCount;
     });
 
-    // city, state, street, zip
     document.querySelectorAll("[data-city]").forEach(el => {
       el.textContent = data.city || "Huntsville";
     });
@@ -102,89 +90,49 @@
       el.textContent = data.postalCode || "35801";
     });
 
-    // logo
+    // Set logo after other content
     if(data.logo) {
       document.querySelectorAll("[data-logo]").forEach(el => {
         el.src = data.logo;
-        el.alt = bn + " Logo";
-        // Add load event listener
-        el.addEventListener('load', handleImageLoad);
+        el.alt = businessName + " Logo";
       });
     }
 
-    // Handle image loading
-    function handleImageLoad() {
-      loadedImages++;
-      this.classList.add('loaded');
-      if (loadedImages === images.length) {
-        finishInitialization();
-      }
-    }
-
-    // Add load listeners to all images
-    images.forEach(img => {
-      if (img.complete) {
-        handleImageLoad.call(img);
-      } else {
-        img.addEventListener('load', handleImageLoad);
-      }
-    });
-
-    // reviews link
+    // Set review link
     if(data.reviewsLink) {
       document.querySelectorAll("[data-reviewlink]").forEach(el => {
         el.href = data.reviewsLink;
       });
     }
 
-    // About Us
+    // About content
     document.querySelectorAll("[data-about-content]").forEach(el => {
       el.textContent = data.aboutUs || "We proudly serve the community with reliable, top-notch plumbing.";
     });
 
-    function finishInitialization() {
-      // Initialize all components
-      initHeroImages(data.photos.heroImages || []);
-      initAboutSlider(data.photos.aboutUsImages || []);
-      initReviews(data.fiveStarReviews || []);
+    // Initialize components after content is set
+    initHeroImages(data.photos.heroImages || []);
+    initAboutSlider(data.photos.aboutUsImages || []);
+    initReviews(data.fiveStarReviews || []);
 
-      // Nav hamburger
-      const hamburger = document.querySelector(".hamburger");
-      const navList = document.querySelector(".nav-list");
-      if(hamburger && navList) {
-        hamburger.addEventListener("click", () => {
-          navList.classList.toggle("active");
-        });
-      }
-
-      // Start hero slider
-      startHeroSlider();
-
-      // Show the page
-      setTimeout(() => {
-        document.body.classList.add('loaded');
-        document.body.style.opacity = '1';
-      }, 100);
+    // Mobile menu handler
+    const hamburger = document.querySelector(".hamburger");
+    const navList = document.querySelector(".nav-list");
+    if(hamburger && navList) {
+      hamburger.addEventListener("click", () => {
+        navList.classList.toggle("active");
+      });
     }
+
+    // Start hero slider
+    startHeroSlider();
   }
 
   function initHeroImages(heroImages) {
     const slides = document.querySelectorAll('.slides .slide');
-    let loadedHeroImages = 0;
-    const totalHeroImages = heroImages.length;
-
     slides.forEach((slide, index) => {
       if(heroImages[index] && heroImages[index].imageUrl) {
-        const img = new Image();
-        img.onload = () => {
-          slide.style.backgroundImage = `url('${heroImages[index].imageUrl}')`;
-          loadedHeroImages++;
-          if(loadedHeroImages === totalHeroImages) {
-            slide.style.opacity = '1';
-          }
-        };
-        img.src = heroImages[index].imageUrl;
-        
+        slide.style.backgroundImage = `url('${heroImages[index].imageUrl}')`;
         const ctaEl = slide.querySelector(`[data-hero-cta="${index}"]`);
         if(ctaEl) {
           ctaEl.textContent = heroImages[index].callToAction || "";
