@@ -20,33 +20,18 @@
 }
 
 /* =======================
-   GLOBAL BASE STYLE
-   ======================= */
-/* =======================
    GLOBAL BASE STYLES
    ======================= */
 body {
   font-family: var(--font-family);
   color: var(--text-color);
   line-height: 1.4;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-body.loaded {
-  opacity: 1;
 }
 
 img {
   display: block;
   max-width: 100%;
   height: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-img.loaded {
-  opacity: 1;
 }
 
 ul, li {
@@ -64,29 +49,16 @@ a {
 .header {
   width: 100%;
   background-color: var(--primary-color);
-  z-index: 1; /* Reduced from 999 */
   display: flex;
   flex-direction: column;
   position: relative;
-  top: auto; /* Explicitly remove any top positioning */
-}
-
-/* Reset any potential sticky behavior on all devices */
-@media screen and (min-width: 0px) {
-  .header {
-    position: relative !important; /* Force override */
-    position: static !important; /* Double ensure no stickiness */
-    transform: none !important; /* Remove any transform that might cause issues */
-    top: auto !important;
-    z-index: 1 !important;
-  }
+  z-index: 1;
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .header {
-    position: relative !important;
-    top: auto !important;
+    position: relative;
   }
 }
 /* Logo Section */
