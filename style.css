@@ -8,15 +8,15 @@
 }
 
 :root {
-  --primary-color: #0099cc;     /* Header background or accent color */
-  --accent-color: #ff6600;      /* Buttons or highlight color */
-  --text-color: #333;           /* Primary text color */
-  --light-text-color: #fff;     /* Light text on dark backgrounds */
-  --text-dark: #444;            /* Added definition */
-  --overlay-opacity: 0.5;       /* Adjust overlay transparency */
-  --transition-speed: 0.3s;     /* For hover/focus transitions */
-  --hero-slide-duration: 5s;    /* Interval for automatic slide change */
-  --hero-height: 80vh;          /* Hero section height */
+  --primary-color: #0099cc;
+  --accent-color: #ff6600;
+  --text-color: #333;
+  --light-text-color: #fff;
+  --text-dark: #444;
+  --overlay-opacity: 0.5;
+  --transition-speed: 0.3s;
+  --hero-slide-duration: 5s;
+  --hero-height: 80vh;
   --font-family: 'Poppins', sans-serif;
 }
 
@@ -70,6 +70,7 @@ a {
   height: 200px;
   width: 200px;
   object-fit: contain;
+  object-position: center;
 }
 
 /* Contact Bar */
@@ -149,9 +150,8 @@ a {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.8s ease;
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
 }
 
 .slide.active {
@@ -210,8 +210,72 @@ a {
 
   .logo {
     height: 200px;
+    width: 200px;
   }
 
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1.2rem;
+    font-size: 1.5rem;
+    color: var(--light-text-color);
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  .navbar {
+    padding: 0;
+  }
+
+  .nav-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--primary-color);
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .nav-list.active {
+    display: flex;
+  }
+
+  .contact-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  /* Mobile Hero */
+  .hero {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .hero-overlay {
+    padding: 1rem;
+  }
+
+  .hero-desc {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    max-width: 90%;
+    padding: 0.5rem;
+  }
+
+  .hero-cta {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Continue with your other sections... */
   .hamburger {
     display: block;
     position: absolute;
