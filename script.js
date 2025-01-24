@@ -2,35 +2,51 @@
 (function(){
   // Get place_id parameter from URL
   const urlParams = new URLSearchParams(window.location.search);
-  const placeId = urlParams.get('place_id'); // Changed from 'site' to 'place_id'
+  const placeId = urlParams.get('place_id');
   
   if(!placeId) {
     console.warn("No ?place_id= provided in URL. Page won't populate data.");
     return;
   }
 
-  // No need to normalize place_id as they are already standardized by Google
-  const DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/finalWebsiteData.json"; 
+  // URLs for both data sources
+  const WEBSITE_DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/finalWebsiteData.json";
+  const PHOTO_DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/data/businessPhotoContent.json";
 
-  fetch(DATA_URL)
-    .then(resp => {
-      if(!resp.ok) {
-        throw new Error("Failed to load finalWebsiteData.json: " + resp.status);
-      }
-      return resp.json();
-    })
-    .then(json => {
-      const businesses = json.finalWebsiteData || [];
-      // Find business by place_id instead of siteId
-      const found = businesses.find(b => b.siteId === placeId);
-      if(!found) {
-        console.warn("No matching place_id in finalWebsiteData for:", placeId);
+  // Fetch both files in parallel
+  Promise.all([
+    fetch(WEBSITE_DATA_URL).then(resp => resp.json()),
+    fetch(PHOTO_DATA_URL).then(resp => resp.json())
+  ])
+    .then(([websiteData, photoData]) => {
+      const businesses = websiteData.finalWebsiteData || [];
+      const business = businesses.find(b => b.siteId === placeId);
+      
+      if(!business) {
+        console.warn("No matching business found for:", placeId);
         return;
       }
-      initializeSite(found);
+
+      // Get photo content for this business
+      const photoContent = photoData.businessPhotoContent[placeId];
+      if (photoContent) {
+        // Add photo data to business object
+        business.photos = {
+          heroImages: (photoContent.heroSection || []).map(image => ({
+            imageUrl: image.imageIndex,
+            callToAction: image.callToAction
+          })),
+          aboutUsImages: (photoContent.aboutUsSection || []).map(image => ({
+            url: image.imageIndex,
+            description: image.description || ""
+          }))
+        };
+      }
+
+      initializeSite(business);
     })
     .catch(err => {
-      console.error("Error loading or parsing finalWebsiteData.json:", err);
+      console.error("Error loading data:", err);
     });
 
   function initializeSite(data) {
@@ -106,18 +122,9 @@
       el.textContent = data.aboutUs || "";
     });
 
-    // Working hours if available
-    if (data.workingHours) {
-      document.querySelectorAll("[data-hours]").forEach(el => {
-        const day = el.getAttribute("data-hours");
-        if (day && data.workingHours[day]) {
-          el.textContent = data.workingHours[day];
-        }
-      });
-    }
-
     // Initialize components
     if (data.photos) {
+      console.log("Initializing photos:", data.photos); // Debug log
       initHeroImages(data.photos.heroImages || []);
       initAboutSlider(data.photos.aboutUsImages || []);
     }
@@ -137,6 +144,7 @@
   }
 
   function initHeroImages(heroImages) {
+    console.log("Hero images to initialize:", heroImages); // Debug log
     const slides = document.querySelectorAll('.slides .slide');
     slides.forEach((slide, index) => {
       const image = heroImages[index];
@@ -151,6 +159,7 @@
   }
 
   function initAboutSlider(aboutImages) {
+    console.log("About images to initialize:", aboutImages); // Debug log
     const container = document.querySelector("[data-about-slider]");
     if(!container || !aboutImages.length) return;
     
@@ -161,7 +170,7 @@
       slideDiv.className = "slide" + (i===0 ? " active" : "");
       
       const img = document.createElement("img");
-      img.src = image.url || image; // Handle both object and string formats
+      img.src = image.url;
       img.alt = image.description || `About Image ${i+1}`;
       
       slideDiv.appendChild(img);
