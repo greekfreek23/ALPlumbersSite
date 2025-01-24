@@ -294,7 +294,7 @@ a {
 }
 
 .about-image {
-  flex: 1 1 500px;      /* Adjusted flex-basis for responsiveness */
+  flex: 1 1 325px;      /* Adjusted flex-basis for responsiveness */
   min-width: 250px;     /* Reduced min-width for smaller screens */
   height: auto;         /* Removed fixed height to allow natural scaling */
   overflow: hidden;
