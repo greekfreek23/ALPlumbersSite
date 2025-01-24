@@ -83,6 +83,14 @@
       `;
       body.appendChild(errorDiv);
     }
+
+    // **Set a Fallback Title**
+    const titleElement = document.getElementById('dynamic-title');
+    if (titleElement) {
+      titleElement.textContent = "Error - Plumbing Services";
+    } else {
+      document.title = "Error - Plumbing Services";
+    }
   }
 
   // Intersection Observer Setup
@@ -201,6 +209,16 @@
     safeQuerySelectorAll("[data-about-content]", el => {
       el.textContent = data.aboutUs || "";
     });
+
+    // **Dynamically Update the Page Title**
+    const dynamicTitle = `${data.businessName || 'Plumbing Services'} - ${data.tagline || 'Your Trusted Plumber'}`;
+    const titleElement = document.getElementById('dynamic-title');
+    if (titleElement) {
+      titleElement.textContent = dynamicTitle;
+    } else {
+      // Fallback in case the title element isn't found
+      document.title = dynamicTitle;
+    }
 
     // Initialize components that are visible on page load
     if (isElementInViewport(document.getElementById('about-us'))) {
@@ -427,5 +445,6 @@
   }
 
 })();
+
 
 
