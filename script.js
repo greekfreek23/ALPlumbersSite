@@ -4,6 +4,13 @@
   let globalBusinessData = null;
   let sliderIntervals = [];
 
+  // Track initialized sections to prevent redundant initializations
+  const initializedSections = {
+    reviewsSection: false,
+    aboutUs: false,
+    // Add more sections if needed
+  };
+
   // Get place_id parameter from URL
   const urlParams = new URLSearchParams(window.location.search);
   const placeId = urlParams.get('place_id');
@@ -45,7 +52,7 @@
             callToAction: image.callToAction
           })),
           aboutUsImages: (photoContent.aboutUsSection || []).map(image => ({
-            url: image.imageIndex,
+            url: image.imageIndex, // Changed to 'url' to maintain consistency
             description: image.description || ""
           }))
         };
@@ -122,13 +129,18 @@
 
     switch(sectionId) {
       case 'reviewsSection':
-        initReviews(globalBusinessData.fiveStarReviews || []);
-        break;
-      case 'about-us':
-        if (globalBusinessData.photos) {
-          initAboutSlider(globalBusinessData.photos.aboutUsImages || []);
+        if (!initializedSections.reviewsSection) {
+          initReviews(globalBusinessData.fiveStarReviews || []);
+          initializedSections.reviewsSection = true;
         }
         break;
+      case 'about-us':
+        if (globalBusinessData.photos && !initializedSections.aboutUs) {
+          initAboutSlider(globalBusinessData.photos.aboutUsImages || []);
+          initializedSections.aboutUs = true;
+        }
+        break;
+      // Add more cases if needed
     }
   }
 
@@ -205,8 +217,10 @@
     if (data.photos) {
       initHeroImages(data.photos.heroImages || []);
       initAboutSlider(data.photos.aboutUsImages || []);
+      initializedSections.aboutUs = true; // Mark as initialized
     }
     initReviews(data.fiveStarReviews || []);
+    initializedSections.reviewsSection = true; // Mark as initialized
 
     // Mobile menu handler
     const hamburger = document.querySelector(".hamburger");
@@ -256,6 +270,10 @@
     const container = document.querySelector("[data-about-slider]");
     if(!container || !aboutImages.length) return;
     
+    // Prevent multiple initializations
+    if (container.dataset.initialized === "true") return;
+    container.dataset.initialized = "true";
+
     container.innerHTML = "";
 
     // Preload all images first
@@ -270,9 +288,12 @@
 
     Promise.all(imagePromises)
       .then(loadedImages => {
-        loadedImages.filter(img => img).forEach((image, i) => {
+        const validImages = loadedImages.filter(img => img);
+        if (validImages.length === 0) return;
+
+        validImages.forEach((image, i) => {
           const slideDiv = document.createElement("div");
-          slideDiv.className = "slide" + (i===0 ? " active" : "");
+          slideDiv.className = "slide" + (i === 0 ? " active" : "");
           
           const imgEl = document.createElement("img");
           imgEl.src = image.url;
@@ -282,7 +303,7 @@
           container.appendChild(slideDiv);
         });
 
-        if(loadedImages.length > 1){
+        if(validImages.length > 1){
           let current = 0;
           const interval = setInterval(()=>{
             const allSlides = container.querySelectorAll(".slide");
@@ -296,12 +317,19 @@
           }, 5000);
           sliderIntervals.push(interval);
         }
+      })
+      .catch(err => {
+        console.error("Error loading about slider images:", err);
       });
   }
 
   function initReviews(fiveStarReviews) {
     const track = document.getElementById("reviewsTrack");
     if (!track || !fiveStarReviews.length) return;
+    
+    // Prevent multiple initializations
+    if (track.dataset.initialized === "true") return;
+    track.dataset.initialized = "true";
     
     // Clear existing content
     while (track.firstChild) {
@@ -340,17 +368,22 @@
     // Batch DOM updates
     track.appendChild(fragment);
 
-    // Reset and start animation
+    // Set up animation
     track.style.animation = 'none';
-    track.offsetHeight; // Trigger reflow
+    void track.offsetWidth; // Trigger reflow
     track.style.animation = `slide ${totalDuration}s linear infinite`;
 
-    // Event listeners
-    const handleMouseEnter = () => track.style.animationPlayState = 'paused';
-    const handleMouseLeave = () => track.style.animationPlayState = 'running';
+    // Event listeners for pausing animation on hover/touch
+    const handlePause = () => track.style.animationPlayState = 'paused';
+    const handleResume = () => track.style.animationPlayState = 'running';
 
-    track.addEventListener('mouseenter', handleMouseEnter);
-    track.addEventListener('mouseleave', handleMouseLeave);
+    // For desktop hover
+    track.addEventListener('mouseenter', handlePause);
+    track.addEventListener('mouseleave', handleResume);
+
+    // For mobile touch
+    track.addEventListener('touchstart', handlePause);
+    track.addEventListener('touchend', handleResume);
   }
 
   function startHeroSlider() {
@@ -369,4 +402,11 @@
     }, 5000);
     sliderIntervals.push(interval);
   }
+
+  // Cleanup intervals when the page is unloaded to prevent memory leaks
+  window.addEventListener('beforeunload', () => {
+    clearSliderIntervals();
+  });
+
 })();
+
