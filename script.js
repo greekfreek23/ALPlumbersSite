@@ -64,8 +64,8 @@
       // Initialize site with stored data
       initializeSite(globalBusinessData);
 
-      // Add scroll event listener for re-initialization if needed
-      window.addEventListener('scroll', handleScroll, { passive: true });
+      // Initialize Intersection Observers
+      initializeObservers();
     })
     .catch(err => {
       console.error("Error loading data:", err);
@@ -85,43 +85,32 @@
     }
   }
 
-  // Debounce function to limit execution frequency
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
+  // Intersection Observer Setup
+  function initializeObservers() {
+    const options = {
+      root: null, // viewport
+      rootMargin: '0px',
+      threshold: 0.1 // Trigger when 10% of the section is visible
     };
-  }
 
-  // Handle scroll events
-  const handleScroll = debounce(() => {
-    if (globalBusinessData) {
-      checkAndReinitializeVisibleSections();
-    }
-  }, 150);
+    const observer = new IntersectionObserver(handleIntersection, options);
 
-  function checkAndReinitializeVisibleSections() {
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-      if (isElementInViewport(section)) {
-        reinitializeSection(section.id);
-      }
+    // Observe all sections that need lazy initialization
+    const sectionsToObserve = document.querySelectorAll('section[id]');
+    sectionsToObserve.forEach(section => {
+      observer.observe(section);
     });
   }
 
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= -rect.height &&
-      rect.left >= -rect.width &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth) + rect.width
-    );
+  function handleIntersection(entries, observer) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sectionId = entry.target.id;
+        reinitializeSection(sectionId);
+        // Stop observing once the section has been initialized
+        observer.unobserve(entry.target);
+      }
+    });
   }
 
   function reinitializeSection(sectionId) {
@@ -213,14 +202,20 @@
       el.textContent = data.aboutUs || "";
     });
 
-    // Initialize components
-    if (data.photos) {
-      initHeroImages(data.photos.heroImages || []);
-      initAboutSlider(data.photos.aboutUsImages || []);
-      initializedSections.aboutUs = true; // Mark as initialized
+    // Initialize components that are visible on page load
+    if (isElementInViewport(document.getElementById('about-us'))) {
+      if (data.photos && !initializedSections.aboutUs) {
+        initAboutSlider(data.photos.aboutUsImages || []);
+        initializedSections.aboutUs = true;
+      }
     }
-    initReviews(data.fiveStarReviews || []);
-    initializedSections.reviewsSection = true; // Mark as initialized
+
+    if (isElementInViewport(document.getElementById('reviewsSection'))) {
+      if (!initializedSections.reviewsSection) {
+        initReviews(data.fiveStarReviews || []);
+        initializedSections.reviewsSection = true;
+      }
+    }
 
     // Mobile menu handler
     const hamburger = document.querySelector(".hamburger");
@@ -231,8 +226,11 @@
       });
     }
 
-    // Start hero slider
-    startHeroSlider();
+    // Initialize hero images and slider if visible
+    if (data.photos) {
+      initHeroImages(data.photos.heroImages || []);
+      startHeroSlider();
+    }
   }
 
   function safeQuerySelectorAll(selector, callback) {
@@ -336,13 +334,23 @@
       track.removeChild(track.firstChild);
     }
 
-    const duplicatedReviews = Array(20).fill(fiveStarReviews).flat();
+    // Limit duplication to prevent excessive DOM elements
+    const DUPLICATION_FACTOR = 5; // Reduced from 20 to 5
+    const duplicatedReviews = Array(DUPLICATION_FACTOR).fill(fiveStarReviews).flat();
+
+    // Ensure we don't have an excessively large number of reviews
+    const MAX_REVIEWS = 100; // Adjust as needed
+    const limitedReviews = duplicatedReviews.slice(0, MAX_REVIEWS);
+
     const SECONDS_PER_REVIEW = 5;
-    const totalDuration = duplicatedReviews.length * SECONDS_PER_REVIEW;
+    const totalDuration = limitedReviews.length * SECONDS_PER_REVIEW;
 
     // Create and append all review cards
     const fragment = document.createDocumentFragment();
-    duplicatedReviews.forEach(r => {
+    limitedReviews.forEach(r => {
+      // Validate review data
+      if (!r || typeof r !== 'object') return;
+
       const card = document.createElement("div");
       card.className = "review-card";
       card.style.flex = "0 0 300px";
@@ -353,7 +361,7 @@
 
       const starEl = document.createElement("div");
       starEl.className = "review-stars";
-      starEl.textContent = "★★★★★";
+      starEl.textContent = "★★★★★"; // Ideally, this should reflect the actual rating
 
       const textEl = document.createElement("p");
       textEl.className = "review-text";
@@ -408,5 +416,16 @@
     clearSliderIntervals();
   });
 
+  // Utility function to check if an element is in the viewport
+  function isElementInViewport(el) {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom > 0
+    );
+  }
+
 })();
+
 
