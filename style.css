@@ -293,9 +293,9 @@ a {
 }
 
 .about-image {
-  flex: 1 1 100%; /* Take full width on mobile */
-  min-width: 100%; /* Ensure it takes full width */
-  height: auto; /* Allow natural scaling */
+  flex: 1 1 50%; /* Adjust flex-basis to take up half the container */
+  min-width: 300px; /* Set a minimum width to prevent collapsing */
+  height: 400px; /* Set a fixed height for consistency */
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -304,9 +304,9 @@ a {
 
 .about-image img {
   width: 100%;
-  height: auto; /* Ensure the image scales proportionally */
-  object-fit: cover; /* Change from 'contain' to 'cover' to fill the container */
-  object-position: center;
+  height: 100%; /* Ensure the image fills the container */
+  object-fit: cover; /* Use 'cover' to fill the container without distortion */
+  object-position: center; /* Center the image */
   transition: transform 0.5s ease;
 }
 
