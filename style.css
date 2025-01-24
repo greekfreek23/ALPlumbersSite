@@ -273,138 +273,53 @@ a {
   }
 }
 
-/* =======================
-   ABOUT US SECTION
-   ======================= */
+/* About Us Section Styles */
 .about-us-section {
-  padding: 4rem 2rem; /* Reduced padding for less vertical space */
-  background: linear-gradient(to right, #f8f9fa, #ffffff, #f8f9fa);
-  position: relative;
-}
-
-.about-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;  /* Reduced max-width for better spacing */
-  margin: 0 auto;
-  gap: 2rem;           /* Reduced gap between elements */
-  flex-wrap: wrap;
-}
-
-.about-image {
-  flex: 1 1 500px;      /* Adjusted flex-basis for responsiveness */
-  min-width: 250px;     /* Reduced min-width for smaller screens */
-  height: auto;         /* Removed fixed height to allow natural scaling */
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  position: relative;
-  /* Removed transform to prevent image distortion */
-  transition: transform 0.5s ease;
-}
-
-.about-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Changed from cover to contain to show full image */
-  object-position: center;
-  transition: transform 0.5s ease;
-  background-color: #f8f9fa;
-}
-
-/* Hover Effects */
-.about-image:hover img {
-  transform: scale(1.05); /* Slight zoom on hover */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem;
 }
 
 .about-text {
-  flex: 1 1 400px; /* Adjusted flex-basis for responsiveness */
-  min-width: 250px;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    width: 50%;
+    /* Additional text styles */
 }
 
-.about-heading {
-  font-size: 2rem; /* Reduced font size for better mobile compatibility */
-  color: var(--primary-color);
-  font-weight: 700;
-  margin-bottom: 1rem;
-  position: relative;
-  padding-bottom: 0.5rem;
+.about-image-container {
+    width: 45%;
 }
 
-.about-heading::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-  width: 60%;
-  height: 3px;
-  background: linear-gradient(to right, 
-    transparent, 
-    var(--accent-color) 20%, 
-    var(--primary-color) 80%, 
-    transparent
-  );
-  border-radius: 1.5px;
-}
-
-.about-description {
-  color: #444;
-  line-height: 1.6;
-  font-size: 1rem; /* Reduced font size for better readability */
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .about-us-section {
-    padding: 3rem 1.5rem; /* Further reduced padding on smaller screens */
-  }
-  
-  .about-container {
-    flex-direction: column;
-    gap: 1.5rem; /* Reduced gap for compact layout */
-  }
-  
-  .about-image {
+.about-image-container img {
     width: 100%;
-    max-width: 100%;
-    height: auto; /* Ensures image scales correctly */
-  }
-  
-  .about-image img {
-    object-fit: contain; /* Ensures full image is visible */
     height: auto;
-  }
-  
-  .about-text {
-    padding: 1rem;
-    text-align: center; /* Centers text for better mobile readability */
-    max-width: 100%; 
-    margin: 0 auto;
-  }
-  
-  .about-heading {
-    font-size: 1.8rem;
-    text-align: center;
-    margin: 0 auto 1rem auto;
-  }
-  
-  .about-heading::after {
-    left: 15%;
-    width: 70%;
-  }
-  
-  .about-description {
-    font-size: 0.95rem;
-    text-align: center;
-    max-width: 100%;
-    margin: 0 auto;
-  }
+    display: block;
 }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .about-us-section {
+        flex-direction: column;
+        padding: 3rem 1rem;
+    }
+
+    .about-text {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .about-image-container {
+        width: 40%;
+        margin: 0 auto;
+    }
+
+    .about-image-container img {
+        width: 100%;
+        height: auto;
+    }
+}
+
 
 /* =======================
    SERVICES SECTION
