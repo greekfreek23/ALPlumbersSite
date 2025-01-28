@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-<title id="dynamic-title">Best Alabama Plumber</title>
+  <title id="dynamic-title">Best Alabama Plumber</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -40,7 +40,6 @@
   <!-- End Matomo Code -->
 
 </head>
-
 
 <body>
   <!-- HEADER -->
@@ -122,10 +121,6 @@
       </div>
     </div>
   </section>
-
-
-
-
 
   <!-- SERVICES SECTION -->
   <section class="services-section" id="services">
@@ -317,5 +312,124 @@
 
   <!-- Link to external JS -->
   <script src="script.js"></script>
+
+  <!-- ============================================= -->
+  <!-- Add this new Analytics code AFTER your script -->
+  <script>
+    // =============================================
+    // Analytics Configuration
+    const TRACKING_URL = 'https://script.google.com/macros/s/AKfycbwvSi_gwiL7BnSUTf1UahqyNJQxWt8xYyU3AVoWw9-qvOXdpapRpE8hGYJLE3nWECPG/exec';
+
+    // Simple Analytics System
+    const Analytics = {
+      init: function(plumberId) {
+        this.plumberId = plumberId;
+        this.startTime = Date.now();
+        this.deviceInfo = this.getDeviceInfo();
+        this.setupTracking();
+      },
+
+      getDeviceInfo: function() {
+        return {
+          userAgent: navigator.userAgent,
+          screenSize: `${window.innerWidth}x${window.innerHeight}`,
+          platform: navigator.platform,
+          language: navigator.language,
+          browser: this.getBrowser(),
+        };
+      },
+
+      getBrowser: function() {
+        const ua = navigator.userAgent;
+        if (ua.includes('Chrome')) return 'Chrome';
+        if (ua.includes('Firefox')) return 'Firefox';
+        if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Safari';
+        if (ua.includes('Edge')) return 'Edge';
+        if (ua.includes('MSIE') || ua.includes('Trident/')) return 'IE';
+        return 'Other';
+      },
+
+      trackEvent: function(event, interaction = '') {
+        const timeSpent = Math.floor((Date.now() - this.startTime) / 1000);
+
+        fetch(TRACKING_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            plumberId: this.plumberId,
+            event,
+            timeSpent,
+            deviceInfo: this.deviceInfo,
+            location: window.location.href,
+            interaction
+          })
+        }).catch(console.error);
+      },
+
+      setupTracking: function() {
+        // Track initial page view
+        this.trackEvent('pageview');
+
+        // Track time spent when leaving
+        window.addEventListener('beforeunload', () => {
+          this.trackEvent('exit');
+        });
+
+        // Track phone clicks
+        document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+          el.addEventListener('click', () => this.trackEvent('phone_click'));
+        });
+
+        // Track email clicks
+        document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+          el.addEventListener('click', () => this.trackEvent('email_click'));
+        });
+
+        // Track form submissions
+        document.querySelectorAll('form').forEach(form => {
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.trackEvent('form_submit');
+            // Add your actual form-handling or AJAX here if desired
+          });
+        });
+
+        // Track service box interactions
+        document.querySelectorAll('.service-box').forEach(box => {
+          box.addEventListener('click', () => {
+            const service = box.querySelector('h3').textContent;
+            this.trackEvent('service_click', service);
+          });
+        });
+
+        // Track review link clicks
+        document.querySelectorAll('[data-reviewlink]').forEach(link => {
+          link.addEventListener('click', () => {
+            this.trackEvent('review_click');
+          });
+        });
+
+        // Track scroll depth at 25/50/75/100
+        let maxScroll = 0;
+        window.addEventListener('scroll', () => {
+          const scrolled = (window.scrollY + window.innerHeight);
+          const docHeight = document.documentElement.scrollHeight;
+          const percent = (scrolled / docHeight) * 100;
+
+          if (percent > maxScroll) {
+            maxScroll = Math.round(percent);
+            // Trigger event each time we cross a 25% boundary
+            if (maxScroll % 25 === 0) {
+              this.trackEvent('scroll_depth', `${maxScroll}%`);
+            }
+          }
+        });
+      }
+    };
+  </script>
 </body>
 </html>
+
