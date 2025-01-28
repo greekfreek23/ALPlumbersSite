@@ -1,4 +1,3 @@
-/* script.js */
 (function(){
   // Store data globally within our closure
   let globalBusinessData = null;
@@ -11,20 +10,14 @@
     // Add more sections if needed
   };
 
-  // ===== NEW LINES BELOW =====
   // Get place_id parameter from URL
   const urlParams = new URLSearchParams(window.location.search);
   const placeId = urlParams.get('place_id');
-
-  // If place_id is missing, we still proceed, 
-  // but we warn that page data might not populate.
+  
   if(!placeId) {
     console.warn("No ?place_id= provided in URL. Page won't populate data.");
-  } else {
-    // Initialize our Analytics tracking
-    Analytics.init(placeId);
+    return;
   }
-  // ===== END OF NEW LINES =====
 
   const WEBSITE_DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/finalWebsiteData.json";
   const PHOTO_DATA_URL = "https://raw.githubusercontent.com/greekfreek23/alabamaplumbersnowebsite/main/data/businessPhotoContent.json";
@@ -40,43 +33,43 @@
       return resp.json();
     })
   ])
-  .then(([websiteData, photoData]) => {
-    const businesses = websiteData.finalWebsiteData || [];
-    const business = businesses.find(b => b.siteId === placeId);
+    .then(([websiteData, photoData]) => {
+      const businesses = websiteData.finalWebsiteData || [];
+      const business = businesses.find(b => b.siteId === placeId);
+      
+      if(!business) {
+        throw new Error(`No matching business found for: ${placeId}`);
+      }
 
-    if(!business) {
-      throw new Error(`No matching business found for: ${placeId}`);
-    }
+      // Get photo content for this business
+      const photoContent = photoData.businessPhotoContent[placeId];
+      if (photoContent) {
+        // Add photo data to business object
+        business.photos = {
+          heroImages: (photoContent.heroSection || []).map(image => ({
+            imageUrl: image.imageIndex,
+            callToAction: image.callToAction
+          })),
+          aboutUsImages: (photoContent.aboutUsSection || []).map(image => ({
+            url: image.imageIndex, // Changed to 'url' to maintain consistency
+            description: image.description || ""
+          }))
+        };
+      }
 
-    // Get photo content for this business
-    const photoContent = photoData.businessPhotoContent[placeId];
-    if (photoContent) {
-      // Add photo data to business object
-      business.photos = {
-        heroImages: (photoContent.heroSection || []).map(image => ({
-          imageUrl: image.imageIndex,
-          callToAction: image.callToAction
-        })),
-        aboutUsImages: (photoContent.aboutUsSection || []).map(image => ({
-          url: image.imageIndex, 
-          description: image.description || ""
-        }))
-      };
-    }
+      // Store data globally
+      globalBusinessData = business;
 
-    // Store data globally
-    globalBusinessData = business;
+      // Initialize site with stored data
+      initializeSite(globalBusinessData);
 
-    // Initialize site with stored data
-    initializeSite(globalBusinessData);
-
-    // Initialize Intersection Observers
-    initializeObservers();
-  })
-  .catch(err => {
-    console.error("Error loading data:", err);
-    showErrorMessage();
-  });
+      // Initialize Intersection Observers
+      initializeObservers();
+    })
+    .catch(err => {
+      console.error("Error loading data:", err);
+      showErrorMessage();
+    });
 
   function showErrorMessage() {
     const body = document.querySelector('body');
@@ -102,14 +95,14 @@
   // Intersection Observer Setup
   function initializeObservers() {
     const options = {
-      root: null,
+      root: null, // viewport
       rootMargin: '0px',
-      threshold: 0.1
+      threshold: 0.1 // Trigger when 10% of the section is visible
     };
 
     const observer = new IntersectionObserver(handleIntersection, options);
 
-    // Observe sections that need lazy initialization
+    // Observe all sections that need lazy initialization
     const sectionsToObserve = document.querySelectorAll('section[id]');
     sectionsToObserve.forEach(section => {
       observer.observe(section);
@@ -121,6 +114,7 @@
       if (entry.isIntersecting) {
         const sectionId = entry.target.id;
         reinitializeSection(sectionId);
+        // Stop observing once the section has been initialized
         observer.unobserve(entry.target);
       }
     });
@@ -152,10 +146,10 @@
   }
 
   function initializeSite(data) {
-    // Clear intervals
+    // Clear any existing intervals
     clearSliderIntervals();
 
-    // Set theme colors
+    // Set theme colors first
     if(data.secondaryColor) {
       document.documentElement.style.setProperty('--primary-color', data.secondaryColor);
     }
@@ -163,7 +157,7 @@
       document.documentElement.style.setProperty('--accent-color', data.primaryColor);
     }
 
-    // Fill dynamic content
+    // Fill in all the dynamic content
     safeQuerySelectorAll("[data-business-name]", el => {
       el.textContent = data.businessName || "Business Name Not Found";
     });
@@ -215,22 +209,24 @@
       el.textContent = data.aboutUs || "";
     });
 
-    // Dynamically update the page title
+    // **Dynamically Update the Page Title**
     const dynamicTitle = `${data.businessName || 'Plumbing Services'} - ${data.tagline || 'Your Trusted Plumber'}`;
     const titleElement = document.getElementById('dynamic-title');
     if (titleElement) {
       titleElement.textContent = dynamicTitle;
     } else {
+      // Fallback in case the title element isn't found
       document.title = dynamicTitle;
     }
 
-    // Initialize components visible on page load
+    // Initialize components that are visible on page load
     if (isElementInViewport(document.getElementById('about-us'))) {
       if (data.photos && !initializedSections.aboutUs) {
         initAboutSlider(data.photos.aboutUsImages || []);
         initializedSections.aboutUs = true;
       }
     }
+
     if (isElementInViewport(document.getElementById('reviewsSection'))) {
       if (!initializedSections.reviewsSection) {
         initReviews(data.fiveStarReviews || []);
@@ -238,7 +234,7 @@
       }
     }
 
-    // Mobile menu toggle
+    // Mobile menu handler
     const hamburger = document.querySelector(".hamburger");
     const navList = document.querySelector(".nav-list");
     if(hamburger && navList) {
@@ -247,7 +243,7 @@
       });
     }
 
-    // Initialize hero images & slider
+    // Initialize hero images and slider if visible
     if (data.photos) {
       initHeroImages(data.photos.heroImages || []);
       startHeroSlider();
@@ -270,7 +266,7 @@
     slides.forEach((slide, index) => {
       const image = heroImages[index];
       if(image && image.imageUrl) {
-        // Preload
+        // Preload image
         const img = new Image();
         img.onload = () => {
           slide.style.backgroundImage = `url('${image.imageUrl}')`;
@@ -288,12 +284,14 @@
   function initAboutSlider(aboutImages) {
     const container = document.querySelector("[data-about-slider]");
     if(!container || !aboutImages.length) return;
+    
+    // Prevent multiple initializations
     if (container.dataset.initialized === "true") return;
-
     container.dataset.initialized = "true";
+
     container.innerHTML = "";
 
-    // Preload all images
+    // Preload all images first
     const imagePromises = aboutImages.map(image => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -306,16 +304,16 @@
     Promise.all(imagePromises)
       .then(loadedImages => {
         const validImages = loadedImages.filter(img => img);
-        if (!validImages.length) return;
+        if (validImages.length === 0) return;
 
         validImages.forEach((image, i) => {
           const slideDiv = document.createElement("div");
           slideDiv.className = "slide" + (i === 0 ? " active" : "");
-
+          
           const imgEl = document.createElement("img");
           imgEl.src = image.url;
           imgEl.alt = image.description || `About Image ${i+1}`;
-
+          
           slideDiv.appendChild(imgEl);
           container.appendChild(slideDiv);
         });
@@ -343,23 +341,31 @@
   function initReviews(fiveStarReviews) {
     const track = document.getElementById("reviewsTrack");
     if (!track || !fiveStarReviews.length) return;
+    
+    // Prevent multiple initializations
     if (track.dataset.initialized === "true") return;
-
     track.dataset.initialized = "true";
+    
+    // Clear existing content
     while (track.firstChild) {
       track.removeChild(track.firstChild);
     }
 
-    const DUPLICATION_FACTOR = 5;
+    // Limit duplication to prevent excessive DOM elements
+    const DUPLICATION_FACTOR = 5; // Reduced from 20 to 5
     const duplicatedReviews = Array(DUPLICATION_FACTOR).fill(fiveStarReviews).flat();
-    const MAX_REVIEWS = 100;
+
+    // Ensure we don't have an excessively large number of reviews
+    const MAX_REVIEWS = 100; // Adjust as needed
     const limitedReviews = duplicatedReviews.slice(0, MAX_REVIEWS);
 
     const SECONDS_PER_REVIEW = 5;
     const totalDuration = limitedReviews.length * SECONDS_PER_REVIEW;
 
+    // Create and append all review cards
     const fragment = document.createDocumentFragment();
     limitedReviews.forEach(r => {
+      // Validate review data
       if (!r || typeof r !== 'object') return;
 
       const card = document.createElement("div");
@@ -372,7 +378,7 @@
 
       const starEl = document.createElement("div");
       starEl.className = "review-stars";
-      starEl.textContent = "★★★★★";
+      starEl.textContent = "★★★★★"; // Ideally, this should reflect the actual rating
 
       const textEl = document.createElement("p");
       textEl.className = "review-text";
@@ -386,15 +392,20 @@
 
     track.appendChild(fragment);
 
+    // Set up animation
     track.style.animation = 'none';
-    void track.offsetWidth; // reflow
+    void track.offsetWidth; // Trigger reflow
     track.style.animation = `slide ${totalDuration}s linear infinite`;
 
+    // Event listeners for pausing animation on hover/touch
     const handlePause = () => track.style.animationPlayState = 'paused';
     const handleResume = () => track.style.animationPlayState = 'running';
 
+    // For desktop hover
     track.addEventListener('mouseenter', handlePause);
     track.addEventListener('mouseleave', handleResume);
+
+    // For mobile touch
     track.addEventListener('touchstart', handlePause);
     track.addEventListener('touchend', handleResume);
   }
@@ -416,10 +427,12 @@
     sliderIntervals.push(interval);
   }
 
+  // Cleanup intervals when the page is unloaded to prevent memory leaks
   window.addEventListener('beforeunload', () => {
     clearSliderIntervals();
   });
 
+  // Utility function to check if an element is in the viewport
   function isElementInViewport(el) {
     if (!el) return false;
     const rect = el.getBoundingClientRect();
@@ -428,7 +441,9 @@
       rect.bottom > 0
     );
   }
+
 })();
+
 
 
 
